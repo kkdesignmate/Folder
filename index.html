@@ -486,7 +486,7 @@
 
   /* ============ 3. Services grid ============ */
   .services { background: var(--bg-soft); }
-  .phase-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 48px; }
+  .phase-grid { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 48px; }
   .phase-card {
     position: relative;
     border: 1px solid var(--line);
@@ -522,26 +522,42 @@
   }
   .phase-name {
     font-family: var(--font-display);
-    font-size: 13.5px;
+    font-size: 15px;
     font-weight: 700;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    margin-bottom: 6px;
+    margin-bottom: 2px;
     position: relative;
   }
-  .phase-desc { color: var(--muted); font-size: 13.5px; line-height: 1.65; margin-bottom: 14px; }
-  .phase-chips { display: flex; flex-wrap: wrap; gap: 6px; }
-  .phase-chips span {
-    font-size: 11px;
+  .phase-sub { font-size: 13px; color: var(--faint); margin-bottom: 16px; }
+  .phase-list { list-style: none; display: grid; gap: 9px; }
+  .phase-list li {
+    position: relative;
+    padding-left: 18px;
     color: var(--muted);
-    border: 1px solid var(--line);
-    background: rgba(255,255,255,0.03);
-    border-radius: 999px;
-    padding: 3px 10px;
-    white-space: nowrap;
+    font-size: 13.5px;
+    line-height: 1.65;
+  }
+  .phase-list li::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0.68em;
+    width: 9px; height: 1px;
+    background: linear-gradient(90deg, var(--red), var(--green));
+    opacity: 0.85;
+  }
+  /* Small connector label on the standalone highlight cards */
+  .phase-link {
+    font-family: var(--font-display);
+    font-size: 10.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--faint);
+    margin-bottom: 10px;
   }
 
-  /* Featured phase 3 — design & website inside the same flow */
+  /* Standalone highlight cards (Website / Monthly SEO) — merged-service additions
+     that must stand out with their own heading & icon, not sit inside a bullet list */
   .phase-card.is-featured {
     grid-column: 1 / -1;
     border-color: rgba(255,255,255,0.22);
@@ -554,8 +570,8 @@
     width: 3px;
     background: linear-gradient(180deg, var(--red), var(--green));
   }
-  .phase-card.is-featured .phase-name { font-size: 15.5px; }
-  .phase-card.is-featured .phase-desc { font-size: 14.5px; max-width: 560px; }
+  .phase-card.is-featured .phase-name { font-size: 17px; }
+  .phase-card.is-featured .wm { font-size: 64px; top: -6px; }
   .phase-tag {
     display: inline-block;
     font-size: 11.5px;
@@ -564,60 +580,27 @@
     background: rgba(255,255,255,0.05);
     border-radius: 999px;
     padding: 3px 12px;
-    margin-top: 14px;
+    margin-top: 16px;
   }
 
-  @media (min-width: 980px) {
-    .phase-grid { grid-template-columns: repeat(4, 1fr); }
-    .phase-card.is-featured { grid-column: span 2; grid-row: span 2; display: flex; flex-direction: column; justify-content: center; padding: 30px 28px; }
+  @media (min-width: 860px) {
+    .phase-grid { grid-template-columns: repeat(2, 1fr); }
+    .phase-card { padding: 28px 26px 26px; }
+    /* Pair each highlight card beside its parent category (03|WEB, 04|SEO) */
+    .phase-card.is-featured {
+      grid-column: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
   }
 
-  /* ============ 4. Process — one flow ============ */
-  .process-note { color: var(--muted); max-width: 640px; font-size: clamp(15px, 2.6vw, 17px); margin-bottom: 56px; }
+  /* One-team note + team image slot (lives at the end of the services section) */
+  .process-note { color: var(--muted); max-width: 640px; font-size: clamp(15px, 2.6vw, 17px); margin-top: 56px; }
   .process-note strong { color: var(--text); font-weight: 600; }
 
-  .timeline { position: relative; display: grid; }
-  .timeline::before {
-    content: "";
-    position: absolute;
-    left: 11px; top: 14px; bottom: 14px;
-    width: 1px;
-    background: linear-gradient(180deg, var(--red), rgba(255,255,255,0.25) 30%, rgba(255,255,255,0.25) 70%, var(--green));
-    transform-origin: top;
-  }
-  html.js .timeline::before { transform: scaleY(0); transition: transform 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.2s; }
-  html.js .timeline.is-visible::before { transform: scaleY(1); }
-  .step { position: relative; padding: 0 0 36px 44px; }
-  .step:last-child { padding-bottom: 0; }
-  .step-dot {
-    position: absolute;
-    left: 0; top: 6px;
-    width: 23px; height: 23px;
-    border-radius: 50%;
-    border: 1px solid var(--line-strong);
-    background: var(--bg);
-    display: flex; align-items: center; justify-content: center;
-  }
-  .step-dot::after { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--text); }
-  .step-num { font-family: var(--font-display); font-size: 11px; letter-spacing: 0.18em; color: var(--faint); margin-bottom: 4px; }
-  .step-title { font-size: 17px; font-weight: 600; margin-bottom: 6px; }
-  .step-desc { color: var(--muted); font-size: 14px; max-width: 520px; }
-
-  @media (min-width: 900px) {
-    .timeline { grid-template-columns: repeat(5, 1fr); gap: 18px; }
-    .timeline::before {
-      left: 12px; right: 12px; top: 11px; bottom: auto; width: auto; height: 1px;
-      background: linear-gradient(90deg, var(--red), rgba(255,255,255,0.25) 30%, rgba(255,255,255,0.25) 70%, var(--green));
-      transform-origin: left;
-    }
-    html.js .timeline::before { transform: scaleX(0); }
-    html.js .timeline.is-visible::before { transform: scaleX(1); }
-    .step { padding: 44px 6px 0 0; }
-    .step-dot { top: 0; }
-  }
-
   .process-media {
-    margin-top: 64px;
+    margin-top: 28px;
     border: 1px dashed var(--line-strong);
     border-radius: var(--radius);
     background: linear-gradient(160deg, var(--surface), var(--bg-soft));
@@ -725,7 +708,6 @@
     <div class="nav-links">
       <a href="#story">เรื่องราว</a>
       <a href="#services">บริการ</a>
-      <a href="#process">วิธีทำงาน</a>
       <a href="#work">ผลงาน</a>
     </div>
     <a href="#contact" class="nav-cta">ปรึกษาเรา</a>
@@ -829,7 +811,7 @@
     <div class="stats stagger">
       <div class="stat reveal"><span class="n">2</span><span class="l">ทีมผู้เชี่ยวชาญ</span></div>
       <div class="stat reveal"><span class="n grad-text">1</span><span class="l">โฟลว์เดียวจบ</span></div>
-      <div class="stat reveal"><span class="n">8</span><span class="l">เฟสครบวงจร</span></div>
+      <div class="stat reveal"><span class="n">8</span><span class="l">หมวดบริการครบวงจร</span></div>
     </div>
   </div>
 </section>
@@ -840,35 +822,64 @@
   <div class="container">
     <div class="eyebrow reveal">Full-Funnel Service</div>
     <h2 class="section-title reveal">บริการครบวงจรใน <span class="grad-text">Flow เดียว</span></h2>
-    <p class="section-lead reveal">8 เฟสในเส้นทางเดียวกัน ส่งต่อกันด้วยกลยุทธ์ชุดเดียว — ไม่ใช่บริการแยกชิ้น</p>
+    <p class="section-lead reveal">ครบทั้ง 8 หมวดในเส้นทางเดียวกัน ทุกบริการส่งต่อกันด้วยกลยุทธ์ชุดเดียว — ไม่ใช่บริการแยกชิ้น</p>
 
     <div class="phase-grid stagger">
       <div class="phase-card reveal">
         <span class="wm">01</span>
         <!-- ICON PLACEHOLDER: phase-1-analysis (รอไฟล์เพิ่ม) -->
         <div class="phase-icon-slot">icon</div>
-        <div class="phase-name">Analysis</div>
-        <p class="phase-desc">รู้จักตลาดก่อนลงสนามจริง</p>
-        <div class="phase-chips"><span>ตลาด</span><span>คู่แข่ง</span><span>กลุ่มเป้าหมาย</span></div>
+        <div class="phase-name">Analysis Information</div>
+        <div class="phase-sub">วิเคราะห์และเจาะลึกข้อมูล</div>
+        <ul class="phase-list">
+          <li>วิเคราะห์ข้อมูลเพื่อการพัฒนาแบรนด์และยอดขาย</li>
+          <li>วิเคราะห์เทรนด์การเติบโตของตลาด</li>
+          <li>อัปเดตเทรนด์ Social Media และพฤติกรรมผู้บริโภค</li>
+          <li>วิเคราะห์คู่แข่งเพื่อหาจุดที่แบรนด์เหนือกว่า (Competitors)</li>
+          <li>กำหนดกลุ่มเป้าหมายที่ใช่ (Customer Persona) เพื่อแก้ Pain Point ได้ตรงจุด</li>
+        </ul>
       </div>
 
       <div class="phase-card reveal">
         <span class="wm">02</span>
         <!-- ICON PLACEHOLDER: phase-2-strategy (รอไฟล์เพิ่ม) -->
         <div class="phase-icon-slot">icon</div>
-        <div class="phase-name">Strategy</div>
-        <p class="phase-desc">วางแผนให้ชนะตั้งแต่ต้น</p>
-        <div class="phase-chips"><span>กลยุทธ์แบรนด์</span><span>แผนสื่อสาร</span><span>Quick Win</span></div>
+        <div class="phase-name">Create Strategy</div>
+        <div class="phase-sub">วางกลยุทธ์และการสร้างจุดขาย</div>
+        <ul class="phase-list">
+          <li>วางกลยุทธ์การสร้างแบรนด์ผ่านเรื่องราว (Brand Storytelling) ระยะยาว</li>
+          <li>วางแผนการสื่อสารสร้างกระแสให้ปังควบคู่กับยอดขาย (Long-term &amp; Peak Point)</li>
+          <li>วางแผนและเลือกช่องทางการยิงโฆษณา (Media Planning) ให้ตรงกับกลุ่มเป้าหมาย</li>
+          <li>วางกลยุทธ์เพื่อสร้างผลลัพธ์ที่รวดเร็ว (Quick Win Strategy) ในช่วงแรก</li>
+        </ul>
+      </div>
+
+      <div class="phase-card reveal">
+        <span class="wm">03</span>
+        <!-- ICON PLACEHOLDER: phase-3-branding-packaging (รอไฟล์เพิ่ม) -->
+        <div class="phase-icon-slot">icon</div>
+        <div class="phase-name">Branding &amp; Packaging</div>
+        <div class="phase-sub">สร้างภาพลักษณ์และอัตลักษณ์แบรนด์</div>
+        <ul class="phase-list">
+          <li>ออกแบบโลโก้แบรนด์ (Brand Logo)</li>
+          <li>เรียบเรียงเรื่องราวแบรนด์ (Brand Narrative) สื่อสารคุณค่าของธุรกิจ</li>
+          <li>กำหนดโทนสีและองค์ประกอบภาพที่ดึงดูดสายตา (Color Palette &amp; Visual Anchors)</li>
+          <li>พัฒนางานกราฟิกและภาพจำลองสินค้า (Graphic Element / Mockup)</li>
+          <li>จัดทำคัมภีร์อัตลักษณ์แบรนด์ (CI Book) และชุดแบนเนอร์โฆษณา (Ad Set Banner)</li>
+        </ul>
       </div>
 
       <div class="phase-card is-featured reveal" data-reveal="zoom">
-        <span class="wm">03</span>
-        <!-- ICON PLACEHOLDER: phase-3-brand-digital (รอไฟล์เพิ่ม) -->
+        <span class="wm">WEB</span>
+        <!-- ICON PLACEHOLDER: phase-website (รอไฟล์เพิ่ม) -->
         <div class="phase-icon-slot">icon</div>
-        <div class="phase-name">Brand Identity &amp; Digital Presence</div>
-        <p class="phase-desc">ตัวตนของแบรนด์ครบทุกมิติ รวมถึง<strong style="color:var(--text)">เว็บไซต์ระดับมืออาชีพ</strong> — ทุกชิ้นสร้างจากกลยุทธ์เดียวกับเฟสก่อนหน้า ไม่ใช่งานดีไซน์แยกชิ้น</p>
-        <div class="phase-chips"><span>โลโก้</span><span>CI Book</span><span>กราฟิก / Mockup</span><span>เว็บไซต์</span></div>
-        <div><span class="phase-tag">★ จุดแข็งของทีมรวม</span></div>
+        <div class="phase-link">ต่อเนื่องจากหมวด 03 — Branding &amp; Packaging</div>
+        <div class="phase-name">Website Design &amp; Development</div>
+        <div class="phase-sub">ออกแบบและพัฒนาเว็บไซต์</div>
+        <ul class="phase-list">
+          <li>ออกแบบและพัฒนาเว็บไซต์ ตั้งแต่ UX/UI จนถึงพัฒนาเว็บจริงให้ใช้งานได้</li>
+        </ul>
+        <div><span class="phase-tag">★ Highlight Service</span></div>
       </div>
 
       <div class="phase-card reveal">
@@ -876,8 +887,27 @@
         <!-- ICON PLACEHOLDER: phase-4-setup-channel (รอไฟล์เพิ่ม) -->
         <div class="phase-icon-slot">icon</div>
         <div class="phase-name">Setup Channel</div>
-        <p class="phase-desc">เปิดช่องทางให้พร้อมขาย</p>
-        <div class="phase-chips"><span>E-commerce</span><span>SEO</span><span>Content Grid</span><span>Chatbot</span></div>
+        <div class="phase-sub">จัดตั้งและวางระบบช่องทางออนไลน์</div>
+        <ul class="phase-list">
+          <li>เชื่อมต่อและเซ็ตระบบ E-commerce (Line OA, TikTok Shop, FB, IG, เว็บไซต์)</li>
+          <li>ออกแบบและตั้งค่าสินทรัพย์หน้าเพจทั้งหมด (Profile, Cover, ข้อมูลร้านค้า)</li>
+          <li>วางโครงสร้างเพื่อให้รองรับการค้นหา (SEO Platform Setup)</li>
+          <li>วางโครงสร้างและตารางการลงคอนเทนต์ (Content Grid)</li>
+          <li>ตั้งค่าระบบต้อนรับลูกค้าและระบบตอบกลับอัตโนมัติ (Welcome Message &amp; Chatbot)</li>
+        </ul>
+      </div>
+
+      <div class="phase-card is-featured reveal" data-reveal="zoom">
+        <span class="wm">SEO</span>
+        <!-- ICON PLACEHOLDER: phase-seo (รอไฟล์เพิ่ม) -->
+        <div class="phase-icon-slot">icon</div>
+        <div class="phase-link">ต่อเนื่องจากหมวด 04 — Setup Channel</div>
+        <div class="phase-name">Monthly SEO Retainer</div>
+        <div class="phase-sub">บริการดูแล SEO รายเดือน</div>
+        <ul class="phase-list">
+          <li>ดูแล SEO ต่อเนื่องแบบรายเดือน หลังจากตั้งค่าโครงสร้างครั้งแรก (แยกจาก SEO Platform Setup ซึ่งเป็นงานตั้งค่าครั้งเดียว)</li>
+        </ul>
+        <div><span class="phase-tag">★ Highlight Service</span></div>
       </div>
 
       <div class="phase-card reveal">
@@ -885,17 +915,26 @@
         <!-- ICON PLACEHOLDER: phase-5-content (รอไฟล์เพิ่ม) -->
         <div class="phase-icon-slot">icon</div>
         <div class="phase-name">Content Creation</div>
-        <p class="phase-desc">คอนเทนต์ที่ทำให้คนหยุดดู</p>
-        <div class="phase-chips"><span>Static</span><span>Reels / TikTok</span><span>Production</span></div>
+        <div class="phase-sub">ผลิตและสร้างสรรค์คอนเทนต์</div>
+        <ul class="phase-list">
+          <li>Static: ออกแบบภาพนิ่ง ภาพโฆษณา และ Infographic ที่ย่อยง่าย</li>
+          <li>Multi-media: ผลิตวิดีโอสั้นแนวตั้ง (Reels/TikTok), อัลบั้มภาพเล่าเรื่อง</li>
+          <li>คิดกติกาและการโพสต์เพื่อสร้างความร่วมมือและแคมเปญร่วมสนุก (Engagement)</li>
+          <li>Production: ดูแลจบครบตั้งแต่ขั้นตอนการถ่ายทำและตัดต่อที่มีคุณภาพ</li>
+        </ul>
       </div>
 
       <div class="phase-card reveal">
         <span class="wm">06</span>
         <!-- ICON PLACEHOLDER: phase-6-influencer (รอไฟล์เพิ่ม) -->
         <div class="phase-icon-slot">icon</div>
-        <div class="phase-name">Influencer</div>
-        <p class="phase-desc">ให้คนที่ใช่พูดแทนแบรนด์</p>
-        <div class="phase-chips"><span>KOLs Strategy</span><span>Brief</span><span>Coordinate</span></div>
+        <div class="phase-name">Influencer Management</div>
+        <div class="phase-sub">บริหารและจัดการอินฟลูเอนเซอร์</div>
+        <ul class="phase-list">
+          <li>วางกลยุทธ์การเลือกอินฟลูเอนเซอร์ (KOLs Strategy) ให้ตรงกลุ่มเป้าหมาย</li>
+          <li>จัดทำบรีฟงาน (KOLs Brief) ที่ชัดเจน เพื่อให้ขายของได้อย่างเป็นธรรมชาติ</li>
+          <li>ตรวจสอบคุณภาพงาน ประสานงาน และติดตามการโพสต์ (Review &amp; Coordinate)</li>
+        </ul>
       </div>
 
       <div class="phase-card reveal">
@@ -903,8 +942,11 @@
         <!-- ICON PLACEHOLDER: phase-7-ads (รอไฟล์เพิ่ม) -->
         <div class="phase-icon-slot">icon</div>
         <div class="phase-name">Ads Optimize</div>
-        <p class="phase-desc">ทุกงบโฆษณาต้องคุ้มค่า</p>
-        <div class="phase-chips"><span>Meta</span><span>Google</span><span>TikTok</span><span>Shopee</span></div>
+        <div class="phase-sub">บริหารและเพิ่มประสิทธิภาพโฆษณา</div>
+        <ul class="phase-list">
+          <li>สร้างและบริหารแคมเปญโฆษณา ปรับแต่งให้เข้าถึงลูกค้าตัวจริงเพื่อความคุ้มค่าสูงสุด</li>
+          <li>รองรับแพลตฟอร์มหลักทั้งหมด: Meta (FB/IG), Google, TikTok และ Shopee</li>
+        </ul>
       </div>
 
       <div class="phase-card reveal">
@@ -912,54 +954,17 @@
         <!-- ICON PLACEHOLDER: phase-8-evaluation (รอไฟล์เพิ่ม) -->
         <div class="phase-icon-slot">icon</div>
         <div class="phase-name">Stat Evaluation</div>
-        <p class="phase-desc">วัดผลจริง ต่อยอดได้อีก</p>
-        <div class="phase-chips"><span>Performance</span><span>Sentiment</span><span>Lesson</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ 4. PROCESS — ONE FLOW ============ -->
-<section id="process">
-  <div class="ghost">Process</div>
-  <div class="container">
-    <div class="eyebrow reveal">How We Work</div>
-    <h2 class="section-title reveal">ทีมเดียว <span class="grad-text">โฟลว์เดียว</span></h2>
-    <p class="process-note reveal">เราไม่แบ่งว่างานไหนเป็นของใคร — <strong>ทีมกลยุทธ์และทีมดีไซน์ทำงานบนโต๊ะเดียวกันตั้งแต่วันแรก</strong></p>
-
-    <div class="timeline reveal stagger">
-      <div class="step reveal">
-        <div class="step-dot"></div>
-        <div class="step-num">STEP 1</div>
-        <div class="step-title">เข้าใจธุรกิจ</div>
-        <p class="step-desc">ฟังเป้าหมาย วิเคราะห์สนามแข่งขันของคุณ</p>
-      </div>
-      <div class="step reveal">
-        <div class="step-dot"></div>
-        <div class="step-num">STEP 2</div>
-        <div class="step-title">วางกลยุทธ์</div>
-        <p class="step-desc">กำหนดทิศทางแบรนด์และแผนสื่อสาร</p>
-      </div>
-      <div class="step reveal">
-        <div class="step-dot"></div>
-        <div class="step-num">STEP 3</div>
-        <div class="step-title">สร้างแบรนด์ &amp; เว็บไซต์</div>
-        <p class="step-desc">ออกแบบตัวตนแบรนด์และหน้าบ้านดิจิทัล</p>
-      </div>
-      <div class="step reveal">
-        <div class="step-dot"></div>
-        <div class="step-num">STEP 4</div>
-        <div class="step-title">ลงสนามจริง</div>
-        <p class="step-desc">ปล่อยคอนเทนต์ เดินแคมเปญและโฆษณา</p>
-      </div>
-      <div class="step reveal">
-        <div class="step-dot"></div>
-        <div class="step-num">STEP 5</div>
-        <div class="step-title">วัดผล &amp; ต่อยอด</div>
-        <p class="step-desc">อ่านตัวเลข สรุปบทเรียน แล้ววนไปทำให้ดีขึ้น</p>
+        <div class="phase-sub">วัดผล ประเมินสถิติ และพัฒนาต่อยอด</div>
+        <ul class="phase-list">
+          <li>สรุปภาพรวมเพจและกระแสตอบรับของผู้บริโภค (Page Summary &amp; Sentiment)</li>
+          <li>วิเคราะห์ประสิทธิภาพคอนเทนต์ (Content Performance) ค้นหาคอนเทนต์ที่ทำยอดได้ดี</li>
+          <li>วิเคราะห์เสียงจากลูกค้าผ่านกล่องข้อความและคอมเมนต์ (Comment &amp; Inbox Analysis)</li>
+          <li>สรุปบทเรียนและข้อเสนอแนะเชิงกลยุทธ์ (Implication) สำหรับพัฒนาต่อยอด</li>
+        </ul>
       </div>
     </div>
 
+    <p class="process-note reveal">เราไม่แบ่งว่างานไหนเป็นของใคร — <strong>ทีมกลยุทธ์และทีมดีไซน์ทำงานบนโต๊ะเดียวกันตั้งแต่วันแรก</strong> ทุกหมวดจึงส่งต่อกันด้วยข้อมูลและกลยุทธ์ชุดเดียวกัน</p>
     <div class="reveal">
       <!-- IMAGE PLACEHOLDER: who-does-what — รูปทีม / ไอคอนตัวแทนบทบาท (รอไฟล์เพิ่ม) -->
       <div class="process-media">IMAGE — TEAM / ROLES</div>
@@ -967,7 +972,7 @@
   </div>
 </section>
 
-<!-- ============ 5. WORK ============ -->
+<!-- ============ 4. WORK ============ -->
 <section class="work" id="work">
   <div class="ghost">Work</div>
   <div class="container">
@@ -992,7 +997,7 @@
   </div>
 </section>
 
-<!-- ============ 6. CONTACT ============ -->
+<!-- ============ 5. CONTACT ============ -->
 <section id="contact">
   <div class="ghost">Contact</div>
   <div class="container">
