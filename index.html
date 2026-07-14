@@ -125,7 +125,7 @@
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     html.js .reveal { opacity: 1; transform: none; transition: none; }
-    .grad-text, .marquee-track, .blob, .float-card, .hero-enter, .hero-ring, .work-item::after { animation: none !important; }
+    .grad-text, .marquee-track, .blob, .c3d-ring, .hero-enter, .hero-ring, .work-item::after { animation: none !important; }
   }
 
   /* Scroll progress bar */
@@ -311,68 +311,79 @@
   .btn-ghost { border-color: var(--line-strong); color: var(--text); background: rgba(255,255,255,0.03); }
   .btn-ghost:hover { border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.06); }
 
-  /* Floating UI stage — service labels + mini chart hovering over a glowing horizon */
-  .hero-stage {
-    position: relative;
-    width: min(720px, 100%);
-    height: clamp(180px, 34vw, 240px);
-    margin-bottom: 44px;
-  }
+  /* 3D service carousel — ทุกบริการซ้อนวนเป็นวงแหวนสามมิติ แตะการ์ดเพื่อขยายดู */
+  .hero-stage { position: relative; width: min(860px, 100%); margin-bottom: 44px; }
   .hero-stage::before {
     content: "";
     position: absolute;
-    left: 50%; bottom: 0;
+    left: 50%; bottom: 24px;
     transform: translateX(-50%);
-    width: 100%; height: 75%;
+    width: 100%; height: 70%;
     background: radial-gradient(ellipse 62% 100% at 50% 100%, rgba(255,255,255,0.09), transparent 70%);
     pointer-events: none;
   }
   .hero-stage::after {
     content: "";
     position: absolute;
-    left: 6%; right: 6%; bottom: 0;
+    left: 6%; right: 6%; bottom: 24px;
     height: 1px;
     background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35) 30%, rgba(255,255,255,0.35) 70%, transparent);
   }
-  .float-card {
+  .c3d { position: relative; height: clamp(240px, 48vw, 300px); perspective: 1100px; }
+  .c3d-ring {
+    --r: clamp(190px, 38vw, 290px);
     position: absolute;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: clamp(11px, 2.6vw, 13px);
-    font-weight: 500;
-    color: var(--text);
-    background: rgba(19, 19, 24, 0.72);
-    border: 1px solid var(--line-strong);
-    border-radius: 12px;
-    padding: 9px 14px;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
-    white-space: nowrap;
-    animation: card-float 6s ease-in-out infinite;
+    left: 50%; top: 50%;
+    transform-style: preserve-3d;
+    animation: ring3d 44s linear infinite; /* CSS fallback so the ring still spins where JS is blocked */
   }
-  .float-card .fdot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.7); flex: none; }
-  .float-card .fdot.grad { background: linear-gradient(135deg, var(--red), var(--green)); }
-  .fc-1 { left: 0; top: 14%; }
-  .fc-2 { right: 0; top: 2%; animation-delay: -2s; }
-  .fc-3 { left: 8%; bottom: 16%; animation-delay: -4s; }
-  .fc-chart {
-    right: 7%; bottom: 8%;
+  html.js .c3d-ring { animation: none; } /* JS drives rotation for tap-to-focus */
+  @keyframes ring3d { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
+  .c3d-card {
+    position: absolute;
+    width: clamp(152px, 38vw, 198px);
+    height: 124px;
+    margin-left: calc(clamp(152px, 38vw, 198px) / -2);
+    margin-top: -62px;
+    display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 8px;
-    animation-delay: -3s;
+    justify-content: center;
+    gap: 3px;
+    text-align: left;
+    padding: 12px 16px;
+    font-family: var(--font-thai);
+    appearance: none;
+    background: rgba(19, 19, 24, 0.85);
+    border: 1px solid var(--line-strong);
+    border-radius: 14px;
+    box-shadow: 0 12px 34px rgba(0, 0, 0, 0.5);
+    color: var(--text);
+    cursor: pointer;
+    transform: rotateY(calc(var(--i) * 36deg)) translateZ(var(--r));
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), background 0.3s ease, border-color 0.3s ease, opacity 0.3s ease;
   }
-  .fc-chart .lbl { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); font-family: var(--font-display); }
-  .fc-chart .bars { display: flex; align-items: flex-end; gap: 5px; height: 36px; }
-  .fc-chart .bars i { width: 9px; border-radius: 3px 3px 0 0; background: rgba(255,255,255,0.22); }
-  .fc-chart .bars i.up { background: linear-gradient(180deg, var(--green), rgba(20,184,102,0.25)); }
-  @keyframes card-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-  @media (max-width: 480px) {
-    .fc-3 { bottom: 24%; }
-    .fc-chart { right: 2%; bottom: 4%; }
+  .c3d-card .cnum { font-family: var(--font-display); font-size: 10.5px; font-weight: 600; letter-spacing: 0.16em; color: var(--faint); }
+  .c3d-card .cnum.hl {
+    background: linear-gradient(120deg, var(--red), var(--green));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
+  .c3d-card .cname { font-family: var(--font-display); font-size: 12.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; line-height: 1.35; }
+  .c3d-card .csub { font-size: 11.5px; color: var(--muted); line-height: 1.55; }
+  .c3d-card .cmore { display: none; font-size: 11px; font-weight: 600; color: var(--text); margin-top: 5px; border-bottom: 1px solid var(--line-strong); padding-bottom: 1px; }
+  .c3d-card.active {
+    transform: rotateY(calc(var(--i) * 36deg)) translateZ(calc(var(--r) + 48px)) scale(1.18);
+    background: #17171d;
+    border-color: rgba(255, 255, 255, 0.45);
+    z-index: 5;
+  }
+  .c3d-card.active .cmore { display: inline-block; }
+  .c3d-ring.has-active .c3d-card:not(.active) { opacity: 0.3; }
+  .c3d-hint { font-size: 12px; color: var(--faint); text-align: center; letter-spacing: 0.04em; }
 
   .hero-scroll {
     display: inline-flex;
@@ -739,16 +750,72 @@
       <a href="#services" class="btn btn-ghost">ดูบริการทั้งหมด</a>
     </div>
 
-    <div class="hero-stage hero-enter" style="--d:0.68s" aria-hidden="true">
-      <span class="float-card fc-1"><span class="fdot"></span>Brand Strategy</span>
-      <span class="float-card fc-2"><span class="fdot grad"></span>Web Development</span>
-      <span class="float-card fc-3"><span class="fdot"></span>Ads Optimize</span>
-      <span class="float-card fc-chart">
-        <span class="lbl">Business Growth</span>
-        <span class="bars">
-          <i style="height:28%"></i><i style="height:42%"></i><i style="height:36%"></i><i style="height:62%"></i><i style="height:78%"></i><i class="up" style="height:100%"></i>
-        </span>
-      </span>
+    <div class="hero-stage hero-enter" style="--d:0.68s">
+      <div class="c3d">
+        <div class="c3d-ring" id="c3dRing">
+          <button type="button" class="c3d-card" style="--i:0">
+            <span class="cnum">01</span>
+            <span class="cname">Analysis Information</span>
+            <span class="csub">วิเคราะห์และเจาะลึกข้อมูล</span>
+            <span class="cmore">ดูรายละเอียดบริการ ↓</span>
+          </button>
+          <button type="button" class="c3d-card" style="--i:1">
+            <span class="cnum">02</span>
+            <span class="cname">Create Strategy</span>
+            <span class="csub">วางกลยุทธ์และการสร้างจุดขาย</span>
+            <span class="cmore">ดูรายละเอียดบริการ ↓</span>
+          </button>
+          <button type="button" class="c3d-card" style="--i:2">
+            <span class="cnum">03</span>
+            <span class="cname">Branding &amp; Packaging</span>
+            <span class="csub">สร้างภาพลักษณ์และอัตลักษณ์แบรนด์</span>
+            <span class="cmore">ดูรายละเอียดบริการ ↓</span>
+          </button>
+          <button type="button" class="c3d-card" style="--i:3">
+            <span class="cnum hl">★ WEB</span>
+            <span class="cname">Website Design &amp; Dev</span>
+            <span class="csub">ออกแบบและพัฒนาเว็บไซต์</span>
+            <span class="cmore">ดูรายละเอียดบริการ ↓</span>
+          </button>
+          <button type="button" class="c3d-card" style="--i:4">
+            <span class="cnum">04</span>
+            <span class="cname">Setup Channel</span>
+            <span class="csub">จัดตั้งและวางระบบช่องทางออนไลน์</span>
+            <span class="cmore">ดูรายละเอียดบริการ ↓</span>
+          </button>
+          <button type="button" class="c3d-card" style="--i:5">
+            <span class="cnum hl">★ SEO</span>
+            <span class="cname">Monthly SEO Retainer</span>
+            <span class="csub">บริการดูแล SEO รายเดือน</span>
+            <span class="cmore">ดูรายละเอียดบริการ ↓</span>
+          </button>
+          <button type="button" class="c3d-card" style="--i:6">
+            <span class="cnum">05</span>
+            <span class="cname">Content Creation</span>
+            <span class="csub">ผลิตและสร้างสรรค์คอนเทนต์</span>
+            <span class="cmore">ดูรายละเอียดบริการ ↓</span>
+          </button>
+          <button type="button" class="c3d-card" style="--i:7">
+            <span class="cnum">06</span>
+            <span class="cname">Influencer Management</span>
+            <span class="csub">บริหารและจัดการอินฟลูเอนเซอร์</span>
+            <span class="cmore">ดูรายละเอียดบริการ ↓</span>
+          </button>
+          <button type="button" class="c3d-card" style="--i:8">
+            <span class="cnum">07</span>
+            <span class="cname">Ads Optimize</span>
+            <span class="csub">บริหารและเพิ่มประสิทธิภาพโฆษณา</span>
+            <span class="cmore">ดูรายละเอียดบริการ ↓</span>
+          </button>
+          <button type="button" class="c3d-card" style="--i:9">
+            <span class="cnum">08</span>
+            <span class="cname">Stat Evaluation</span>
+            <span class="csub">วัดผล ประเมินสถิติ และพัฒนาต่อยอด</span>
+            <span class="cmore">ดูรายละเอียดบริการ ↓</span>
+          </button>
+        </div>
+      </div>
+      <p class="c3d-hint">แตะการ์ดเพื่อขยายดูแต่ละบริการ · แตะซ้ำเพื่อไปยังรายละเอียด</p>
     </div>
 
     <a href="#story" class="hero-scroll hero-enter" style="--d:0.8s" aria-label="เลื่อนลงเพื่ออ่านต่อ">
@@ -1070,6 +1137,59 @@
     reveals.forEach((el) => io.observe(el));
   } else {
     reveals.forEach((el) => el.classList.add('is-visible'));
+  }
+
+  // 3D service carousel: auto-spins; tap a card to rotate it to the front and
+  // expand it; tap the focused card again to jump to the services section
+  const ring3d = document.getElementById('c3dRing');
+  if (ring3d) {
+    const cards3d = Array.from(ring3d.children);
+    const stepDeg = 360 / cards3d.length;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const spinSpeed = reduceMotion ? 0 : 8; // deg per second
+    let ang = 0, target = null, activeIdx = -1, last = performance.now();
+
+    const tick = (now) => {
+      const dt = Math.min((now - last) / 1000, 0.1);
+      last = now;
+      if (target !== null) {
+        const diff = target - ang;
+        ang += diff * Math.min(1, dt * 6);
+        if (Math.abs(diff) < 0.15) { ang = target; target = null; }
+      } else if (activeIdx === -1) {
+        ang += spinSpeed * dt;
+      }
+      ring3d.style.transform = 'rotateY(' + ang + 'deg)';
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+
+    const deselect3d = () => {
+      if (activeIdx === -1) return;
+      cards3d[activeIdx].classList.remove('active');
+      ring3d.classList.remove('has-active');
+      activeIdx = -1;
+    };
+
+    cards3d.forEach((card, i) => {
+      card.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (activeIdx === i) {
+          deselect3d();
+          document.getElementById('services').scrollIntoView({ behavior: 'smooth' });
+          return;
+        }
+        deselect3d();
+        activeIdx = i;
+        card.classList.add('active');
+        ring3d.classList.add('has-active');
+        const t = -i * stepDeg; // shortest path to bring card i to the front
+        target = t + Math.round((ang - t) / 360) * 360;
+      });
+    });
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.c3d-card')) deselect3d();
+    });
   }
 
   // Current year
