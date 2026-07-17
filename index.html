@@ -487,23 +487,29 @@
   .team-head h3 { font-size: clamp(20px, 4vw, 28px); font-weight: 600; }
   .team-head .swipe-hint { font-size: 12px; color: var(--faint); letter-spacing: 0.04em; white-space: nowrap; }
 
+  /* Bento masonry: 2 row tracks, cards flow into columns. A .tall card fills a
+     whole column (big portrait); two short cards stack in a column (small
+     landscape) — mixed sizes like the reference. Scrolls horizontally to swipe. */
   .team-rail {
-    display: flex;
-    gap: 14px;
+    display: grid;
+    grid-auto-flow: column dense;
+    grid-template-rows: 1fr 1fr;
+    grid-auto-columns: clamp(150px, 46vw, 210px);
+    gap: 12px;
+    height: clamp(372px, 98vw, 480px);
     overflow-x: auto;
-    scroll-snap-type: x mandatory;
+    overflow-y: hidden;
+    scroll-snap-type: x proximity;
     -webkit-overflow-scrolling: touch;
-    padding: 4px 2px 16px;
+    padding: 4px 2px 18px;
     margin: 0 -2px;
     scrollbar-width: none;
   }
   .team-rail::-webkit-scrollbar { display: none; }
 
   .team-card {
-    flex: 0 0 auto;
-    width: clamp(148px, 58vw, 188px);
-    aspect-ratio: 3 / 4;
-    scroll-snap-align: center;
+    grid-row: span 1;              /* short by default — two per column */
+    scroll-snap-align: start;
     position: relative;
     border: 1px solid var(--line);
     border-radius: var(--radius);
@@ -516,6 +522,7 @@
     appearance: none;
     transition: transform 0.28s ease, border-color 0.28s ease;
   }
+  .team-card.tall { grid-row: span 2; }   /* full-height big portrait card */
   .team-card:hover { transform: translateY(-4px); border-color: var(--line-strong); }
   .team-card .tph {
     position: absolute; inset: 0;
@@ -537,8 +544,8 @@
     background: linear-gradient(to top, rgba(8,8,10,0.92) 30%, transparent);
     text-align: left;
   }
-  .team-card .t-name { font-size: 14px; font-weight: 600; line-height: 1.3; }
-  .team-card .t-role { font-size: 11.5px; color: var(--muted); line-height: 1.4; margin-top: 2px; }
+  .team-card .t-name { display: block; font-size: 14px; font-weight: 600; line-height: 1.3; }
+  .team-card .t-role { display: block; font-size: 11.5px; color: var(--muted); line-height: 1.4; margin-top: 2px; }
   .team-card .t-idx {
     position: absolute; top: 12px; left: 12px;
     font-family: var(--font-display); font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
@@ -993,7 +1000,7 @@
       </div>
       <!-- TEAM: 15 placeholder cards. ใส่รูปแต่ละคนโดยแทน <svg class="glyph"> ด้วย <img src="..."> ในการ์ดนั้น -->
       <div class="team-rail" id="teamRail">
-        <button class="team-card" type="button" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
+        <button class="team-card tall" type="button" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
           <!-- TEAM PHOTO PLACEHOLDER: member-01 — แทน <svg class=glyph> ด้วย <img src="..." alt="ชื่อ"> -->
           <span class="tph g0" data-g="g0"><svg class="glyph"><use href="#ico-person"/></svg></span>
           <span class="t-idx">01</span>
@@ -1011,7 +1018,7 @@
           <span class="t-idx">03</span>
           <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
         </button>
-        <button class="team-card" type="button" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
+        <button class="team-card tall" type="button" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
           <!-- TEAM PHOTO PLACEHOLDER: member-04 — แทน <svg class=glyph> ด้วย <img src="..." alt="ชื่อ"> -->
           <span class="tph g3" data-g="g3"><svg class="glyph"><use href="#ico-person"/></svg></span>
           <span class="t-idx">04</span>
@@ -1029,7 +1036,7 @@
           <span class="t-idx">06</span>
           <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
         </button>
-        <button class="team-card" type="button" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
+        <button class="team-card tall" type="button" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
           <!-- TEAM PHOTO PLACEHOLDER: member-07 — แทน <svg class=glyph> ด้วย <img src="..." alt="ชื่อ"> -->
           <span class="tph g0" data-g="g0"><svg class="glyph"><use href="#ico-person"/></svg></span>
           <span class="t-idx">07</span>
@@ -1047,7 +1054,7 @@
           <span class="t-idx">09</span>
           <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
         </button>
-        <button class="team-card" type="button" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
+        <button class="team-card tall" type="button" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
           <!-- TEAM PHOTO PLACEHOLDER: member-10 — แทน <svg class=glyph> ด้วย <img src="..." alt="ชื่อ"> -->
           <span class="tph g3" data-g="g3"><svg class="glyph"><use href="#ico-person"/></svg></span>
           <span class="t-idx">10</span>
@@ -1065,7 +1072,7 @@
           <span class="t-idx">12</span>
           <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
         </button>
-        <button class="team-card" type="button" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
+        <button class="team-card tall" type="button" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
           <!-- TEAM PHOTO PLACEHOLDER: member-13 — แทน <svg class=glyph> ด้วย <img src="..." alt="ชื่อ"> -->
           <span class="tph g0" data-g="g0"><svg class="glyph"><use href="#ico-person"/></svg></span>
           <span class="t-idx">13</span>
