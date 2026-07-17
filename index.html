@@ -507,6 +507,28 @@
   }
   .team-rail::-webkit-scrollbar { display: none; }
 
+  .team-rail-wrap { position: relative; }
+  .rail-btn {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    z-index: 6;
+    width: 44px; height: 44px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    border: 1px solid var(--line-strong);
+    background: rgba(16, 16, 20, 0.82);
+    color: var(--text);
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.5);
+    transition: background 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
+  }
+  .rail-btn:hover { background: rgba(38, 38, 46, 0.92); transform: translateY(-50%) scale(1.08); }
+  .rail-btn svg { width: 20px; height: 20px; }
+  .rail-prev { left: -8px; }
+  .rail-next { right: -8px; }
+  @media (max-width: 560px) { .rail-prev { left: 2px; } .rail-next { right: 2px; } }
+
   .team-card {
     grid-row: span 1;              /* short by default — two per column */
     scroll-snap-align: start;
@@ -642,13 +664,15 @@
   }
   .phase-card:hover .wm { -webkit-text-stroke-color: rgba(255,255,255,0.18); }
   .phase-icon-slot {
-    width: 34px; height: 34px;
-    border: 1px dashed var(--line);
-    border-radius: 9px;
+    width: 44px; height: 44px;
+    border: 1px solid var(--line-strong);
+    border-radius: 12px;
     display: flex; align-items: center; justify-content: center;
-    color: var(--faint); font-size: 9px;
+    color: var(--text);
+    background: linear-gradient(150deg, rgba(255,255,255,0.06), rgba(255,255,255,0.015));
     margin-bottom: 16px;
   }
+  .phase-icon-slot .p-ico { width: 22px; height: 22px; display: block; }
   .phase-name {
     font-family: var(--font-display);
     font-size: 15px;
@@ -728,16 +752,45 @@
   .process-note { color: var(--muted); max-width: 640px; font-size: clamp(15px, 2.6vw, 17px); margin-top: 56px; }
   .process-note strong { color: var(--text); font-weight: 600; }
 
-  .process-media {
-    margin-top: 28px;
-    border: 1px dashed var(--line-strong);
-    border-radius: var(--radius);
-    background: linear-gradient(160deg, var(--surface), var(--bg-soft));
-    min-height: 180px;
-    display: flex; align-items: center; justify-content: center;
-    color: var(--faint); font-size: 13px; letter-spacing: 0.08em;
-    text-align: center; padding: 20px;
+  /* Trusted-by headline + full-bleed auto-scrolling client-logo strip */
+  .trust { margin-top: 40px; text-align: center; }
+  .trust-title { font-size: clamp(20px, 4.2vw, 34px); font-weight: 700; line-height: 1.5; max-width: 820px; margin: 0 auto; }
+
+  .client-strip {
+    position: relative;
+    margin-top: 40px;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);   /* full-bleed out of the container */
+    overflow: hidden;
+    padding: 26px 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: var(--bg);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
   }
+  .client-track {
+    display: flex;
+    align-items: center;
+    gap: 44px;
+    width: max-content;
+    animation: client-scroll 45s linear infinite; /* slow, continuous */
+    will-change: transform;
+  }
+  .client-strip:hover .client-track { animation-play-state: paused; }
+  @keyframes client-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .client-logo {
+    flex: 0 0 auto;
+    width: 140px; height: 58px;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px dashed var(--line-strong);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.02);
+    color: var(--faint);
+    font-family: var(--font-display); font-size: 11px; letter-spacing: 0.12em;
+  }
+  .client-logo img { max-width: 78%; max-height: 66%; object-fit: contain; filter: grayscale(1) brightness(1.7); opacity: 0.85; }
+  @media (prefers-reduced-motion: reduce) { .client-track { animation: none; } }
 
   /* ============ 5. Work ============ */
   .work { background: var(--bg-soft); }
@@ -996,10 +1049,17 @@
     <div class="team-wrap reveal">
       <div class="team-head">
         <h3>ทีมงานของเรา</h3>
-        <span class="swipe-hint">ปัดเพื่อดูเพิ่ม · แตะเพื่อดูแต่ละคน →</span>
+        <span class="swipe-hint">เลื่อนอัตโนมัติ · ปัดหรือกดลูกศร · แตะเพื่อดูแต่ละคน →</span>
       </div>
       <!-- TEAM: 15 placeholder cards. ใส่รูปแต่ละคนโดยแทน <svg class="glyph"> ด้วย <img src="..."> ในการ์ดนั้น -->
-      <div class="team-rail" id="teamRail">
+      <div class="team-rail-wrap">
+        <button class="rail-btn rail-prev" id="railPrev" type="button" aria-label="เลื่อนซ้าย">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+        </button>
+        <button class="rail-btn rail-next" id="railNext" type="button" aria-label="เลื่อนขวา">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
+        </button>
+        <div class="team-rail" id="teamRail">
         <button class="team-card tall" type="button" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
           <!-- TEAM PHOTO PLACEHOLDER: member-01 — แทน <svg class=glyph> ด้วย <img src="..." alt="ชื่อ"> -->
           <span class="tph g0" data-g="g0"><svg class="glyph"><use href="#ico-person"/></svg></span>
@@ -1090,13 +1150,14 @@
           <span class="t-idx">15</span>
           <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
         </button>
+        </div>
       </div>
     </div>
 
     <div class="stats stagger">
       <div class="stat reveal"><span class="n">2</span><span class="l">ทีมผู้เชี่ยวชาญ</span></div>
       <div class="stat reveal"><span class="n grad-text">1</span><span class="l">โฟลว์เดียวจบ</span></div>
-      <div class="stat reveal"><span class="n">8</span><span class="l">หมวดบริการครบวงจร</span></div>
+      <div class="stat reveal"><span class="n">10</span><span class="l">บริการครบจบในที่เดียว</span></div>
     </div>
   </div>
 </section>
@@ -1106,14 +1167,13 @@
   <div class="ghost">Services</div>
   <div class="container">
     <div class="eyebrow reveal">Full-Funnel Service</div>
-    <h2 class="section-title reveal">บริการครบวงจรใน <span class="grad-text">Flow เดียว</span></h2>
-    <p class="section-lead reveal">ครบทั้ง 8 หมวดในเส้นทางเดียวกัน ทุกบริการส่งต่อกันด้วยกลยุทธ์ชุดเดียว — ไม่ใช่บริการแยกชิ้น</p>
+    <h2 class="section-title reveal">บริการ<span class="grad-text">ครบจบในที่เดียว</span></h2>
+    <p class="section-lead reveal">ทุกบริการอยู่ในทีมเดียว เส้นทางเดียว — ตั้งแต่วิเคราะห์ วางกลยุทธ์ ทำแบรนด์ เว็บไซต์ คอนเทนต์ ยันยิงแอดและวัดผล</p>
 
     <div class="phase-grid stagger">
       <div class="phase-card reveal">
         <span class="wm">01</span>
-        <!-- ICON PLACEHOLDER: phase-1-analysis (รอไฟล์เพิ่ม) -->
-        <div class="phase-icon-slot">icon</div>
+        <span class="phase-icon-slot"><svg class="p-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v16h16"/><path d="M8.5 20v-5"/><path d="M13 20v-9"/><path d="M17.5 20v-6.5"/></svg></span>
         <div class="phase-name">Analysis Information</div>
         <div class="phase-sub">วิเคราะห์และเจาะลึกข้อมูล</div>
         <ul class="phase-list">
@@ -1127,8 +1187,7 @@
 
       <div class="phase-card reveal">
         <span class="wm">02</span>
-        <!-- ICON PLACEHOLDER: phase-2-strategy (รอไฟล์เพิ่ม) -->
-        <div class="phase-icon-slot">icon</div>
+        <span class="phase-icon-slot"><svg class="p-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.3"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/></svg></span>
         <div class="phase-name">Create Strategy</div>
         <div class="phase-sub">วางกลยุทธ์และการสร้างจุดขาย</div>
         <ul class="phase-list">
@@ -1141,8 +1200,7 @@
 
       <div class="phase-card reveal">
         <span class="wm">03</span>
-        <!-- ICON PLACEHOLDER: phase-3-branding-packaging (รอไฟล์เพิ่ม) -->
-        <div class="phase-icon-slot">icon</div>
+        <span class="phase-icon-slot"><svg class="p-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 0 18 2.4 2.4 0 0 0 2.1-3.6 1.6 1.6 0 0 1 1.4-2.4H18a3 3 0 0 0 3-3A9 9 0 0 0 12 3Z"/><circle cx="8" cy="11" r="1" fill="currentColor" stroke="none"/><circle cx="12" cy="7.8" r="1" fill="currentColor" stroke="none"/><circle cx="15.7" cy="10.4" r="1" fill="currentColor" stroke="none"/></svg></span>
         <div class="phase-name">Branding &amp; Packaging</div>
         <div class="phase-sub">สร้างภาพลักษณ์และอัตลักษณ์แบรนด์</div>
         <ul class="phase-list">
@@ -1154,23 +1212,19 @@
         </ul>
       </div>
 
-      <div class="phase-card is-featured reveal" data-reveal="zoom">
-        <span class="wm">WEB</span>
-        <!-- ICON PLACEHOLDER: phase-website (รอไฟล์เพิ่ม) -->
-        <div class="phase-icon-slot">icon</div>
-        <div class="phase-link">ต่อเนื่องจากหมวด 03 — Branding &amp; Packaging</div>
+      <div class="phase-card reveal">
+        <span class="wm">04</span>
+        <span class="phase-icon-slot"><svg class="p-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 8l-4 4 4 4"/><path d="M16 8l4 4-4 4"/><path d="M13.2 5.5l-2.4 13"/></svg></span>
         <div class="phase-name">Website Design &amp; Development</div>
         <div class="phase-sub">ออกแบบและพัฒนาเว็บไซต์</div>
         <ul class="phase-list">
           <li>ออกแบบและพัฒนาเว็บไซต์ ตั้งแต่ UX/UI จนถึงพัฒนาเว็บจริงให้ใช้งานได้</li>
         </ul>
-        <div><span class="phase-tag">★ Highlight Service</span></div>
       </div>
 
       <div class="phase-card reveal">
-        <span class="wm">04</span>
-        <!-- ICON PLACEHOLDER: phase-4-setup-channel (รอไฟล์เพิ่ม) -->
-        <div class="phase-icon-slot">icon</div>
+        <span class="wm">05</span>
+        <span class="phase-icon-slot"><svg class="p-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="12" r="2.4"/><circle cx="18" cy="6" r="2.4"/><circle cx="18" cy="18" r="2.4"/><path d="M8.1 10.9l7.8-3.8"/><path d="M8.1 13.1l7.8 3.8"/></svg></span>
         <div class="phase-name">Setup Channel</div>
         <div class="phase-sub">จัดตั้งและวางระบบช่องทางออนไลน์</div>
         <ul class="phase-list">
@@ -1182,23 +1236,19 @@
         </ul>
       </div>
 
-      <div class="phase-card is-featured reveal" data-reveal="zoom">
-        <span class="wm">SEO</span>
-        <!-- ICON PLACEHOLDER: phase-seo (รอไฟล์เพิ่ม) -->
-        <div class="phase-icon-slot">icon</div>
-        <div class="phase-link">ต่อเนื่องจากหมวด 04 — Setup Channel</div>
+      <div class="phase-card reveal">
+        <span class="wm">06</span>
+        <span class="phase-icon-slot"><svg class="p-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.3-4.3"/></svg></span>
         <div class="phase-name">Monthly SEO Retainer</div>
         <div class="phase-sub">บริการดูแล SEO รายเดือน</div>
         <ul class="phase-list">
           <li>ดูแล SEO ต่อเนื่องแบบรายเดือน หลังจากตั้งค่าโครงสร้างครั้งแรก (แยกจาก SEO Platform Setup ซึ่งเป็นงานตั้งค่าครั้งเดียว)</li>
         </ul>
-        <div><span class="phase-tag">★ Highlight Service</span></div>
       </div>
 
       <div class="phase-card reveal">
-        <span class="wm">05</span>
-        <!-- ICON PLACEHOLDER: phase-5-content (รอไฟล์เพิ่ม) -->
-        <div class="phase-icon-slot">icon</div>
+        <span class="wm">07</span>
+        <span class="phase-icon-slot"><svg class="p-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M10.4 8.4l5.2 3.6-5.2 3.6Z" fill="currentColor" stroke="none"/></svg></span>
         <div class="phase-name">Content Creation</div>
         <div class="phase-sub">ผลิตและสร้างสรรค์คอนเทนต์</div>
         <ul class="phase-list">
@@ -1210,9 +1260,8 @@
       </div>
 
       <div class="phase-card reveal">
-        <span class="wm">06</span>
-        <!-- ICON PLACEHOLDER: phase-6-influencer (รอไฟล์เพิ่ม) -->
-        <div class="phase-icon-slot">icon</div>
+        <span class="wm">08</span>
+        <span class="phase-icon-slot"><svg class="p-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="3"/><path d="M3.8 19a5.2 5.2 0 0 1 10.4 0"/><path d="M16 6.2a3 3 0 0 1 0 5.6"/><path d="M17.6 13.6A5.2 5.2 0 0 1 21 19"/></svg></span>
         <div class="phase-name">Influencer Management</div>
         <div class="phase-sub">บริหารและจัดการอินฟลูเอนเซอร์</div>
         <ul class="phase-list">
@@ -1223,9 +1272,8 @@
       </div>
 
       <div class="phase-card reveal">
-        <span class="wm">07</span>
-        <!-- ICON PLACEHOLDER: phase-7-ads (รอไฟล์เพิ่ม) -->
-        <div class="phase-icon-slot">icon</div>
+        <span class="wm">09</span>
+        <span class="phase-icon-slot"><svg class="p-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5v5a1 1 0 0 0 1 1h2.2L13 19V5L7.2 9.5H5a1 1 0 0 0-1 1Z"/><path d="M16.5 9a4 4 0 0 1 0 6"/></svg></span>
         <div class="phase-name">Ads Optimize</div>
         <div class="phase-sub">บริหารและเพิ่มประสิทธิภาพโฆษณา</div>
         <ul class="phase-list">
@@ -1235,9 +1283,8 @@
       </div>
 
       <div class="phase-card reveal">
-        <span class="wm">08</span>
-        <!-- ICON PLACEHOLDER: phase-8-evaluation (รอไฟล์เพิ่ม) -->
-        <div class="phase-icon-slot">icon</div>
+        <span class="wm">10</span>
+        <span class="phase-icon-slot"><svg class="p-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></span>
         <div class="phase-name">Stat Evaluation</div>
         <div class="phase-sub">วัดผล ประเมินสถิติ และพัฒนาต่อยอด</div>
         <ul class="phase-list">
@@ -1250,10 +1297,35 @@
     </div>
 
     <p class="process-note reveal">เราไม่แบ่งว่างานไหนเป็นของใคร — <strong>ทีมกลยุทธ์และทีมดีไซน์ทำงานบนโต๊ะเดียวกันตั้งแต่วันแรก</strong> ทุกหมวดจึงส่งต่อกันด้วยข้อมูลและกลยุทธ์ชุดเดียวกัน</p>
-    <div class="reveal">
-      <!-- IMAGE PLACEHOLDER: who-does-what — รูปทีม / ไอคอนตัวแทนบทบาท (รอไฟล์เพิ่ม) -->
-      <div class="process-media">IMAGE — TEAM / ROLES</div>
+
+    <div class="trust reveal">
+      <h3 class="trust-title">ได้รับความไว้วางใจจากลูกค้ากว่า <span class="grad-text">100+ โปรเจค</span><br>ด้วยประสบการณ์กว่า <span class="grad-text">10 ปี</span></h3>
     </div>
+  </div>
+
+  <!-- CLIENT LOGOS: แถบเลื่อนอัตโนมัติเต็มจอ — แทน .client-logo แต่ละอันด้วย <img src="โลโก้ลูกค้า" alt="ชื่อลูกค้า"> -->
+  <div class="client-strip reveal" aria-label="โลโก้ลูกค้าที่ไว้วางใจเรา">
+    <div class="client-track">
+      <span class="client-logo">LOGO 01</span>
+      <span class="client-logo">LOGO 02</span>
+      <span class="client-logo">LOGO 03</span>
+      <span class="client-logo">LOGO 04</span>
+      <span class="client-logo">LOGO 05</span>
+      <span class="client-logo">LOGO 06</span>
+      <span class="client-logo">LOGO 07</span>
+      <span class="client-logo">LOGO 08</span>
+      <span class="client-logo" aria-hidden="true">LOGO 01</span>
+      <span class="client-logo" aria-hidden="true">LOGO 02</span>
+      <span class="client-logo" aria-hidden="true">LOGO 03</span>
+      <span class="client-logo" aria-hidden="true">LOGO 04</span>
+      <span class="client-logo" aria-hidden="true">LOGO 05</span>
+      <span class="client-logo" aria-hidden="true">LOGO 06</span>
+      <span class="client-logo" aria-hidden="true">LOGO 07</span>
+      <span class="client-logo" aria-hidden="true">LOGO 08</span>
+    </div>
+  </div>
+
+  <div class="container">
   </div>
 </section>
 
@@ -1492,6 +1564,39 @@
       else if (e.key === 'ArrowLeft') go(-1);
       else if (e.key === 'ArrowRight') go(1);
     });
+
+    // Arrow buttons + gentle auto-scroll for the team rail
+    // (pauses while hovering, dragging, or the lightbox is open)
+    const railPrev = document.getElementById('railPrev');
+    const railNext = document.getElementById('railNext');
+    const reduceRail = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let hovering = false, resumeAt = 0, dir = 1, acc = 0, lastT = performance.now();
+    const pauseBriefly = () => { resumeAt = performance.now() + 3000; };
+    const cardStep = () => Math.min(teamRail.clientWidth * 0.8, 280);
+
+    if (railPrev) railPrev.addEventListener('click', () => { teamRail.scrollBy({ left: -cardStep(), behavior: 'smooth' }); pauseBriefly(); });
+    if (railNext) railNext.addEventListener('click', () => { teamRail.scrollBy({ left: cardStep(), behavior: 'smooth' }); pauseBriefly(); });
+    teamRail.addEventListener('pointerenter', () => { hovering = true; });
+    teamRail.addEventListener('pointerleave', () => { hovering = false; });
+    teamRail.addEventListener('pointerdown', pauseBriefly);
+    teamRail.addEventListener('wheel', pauseBriefly, { passive: true });
+    teamRail.addEventListener('touchstart', pauseBriefly, { passive: true });
+
+    const autoScroll = (now) => {
+      const dt = Math.min((now - lastT) / 1000, 0.05); lastT = now;
+      const max = teamRail.scrollWidth - teamRail.clientWidth;
+      if (!reduceRail && !hovering && now > resumeAt && !lb.classList.contains('open') && max > 4) {
+        acc += 26 * dt * dir; // ~26 px per second
+        if (Math.abs(acc) >= 1) {
+          teamRail.scrollLeft += Math.trunc(acc);
+          acc -= Math.trunc(acc);
+          if (teamRail.scrollLeft <= 0) dir = 1;
+          else if (teamRail.scrollLeft >= max - 1) dir = -1;
+        }
+      }
+      requestAnimationFrame(autoScroll);
+    };
+    requestAnimationFrame(autoScroll);
   }
 
   // Current year
