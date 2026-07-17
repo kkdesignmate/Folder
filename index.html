@@ -35,7 +35,7 @@
     --font-display: "Space Grotesk", "IBM Plex Sans Thai", system-ui, sans-serif;
   }
 
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; overflow-x: hidden; }
 
   body {
     background: var(--bg);
@@ -44,7 +44,8 @@
     font-size: 16px;
     line-height: 1.75;
     overflow-wrap: break-word;
-    overflow-x: hidden;
+    overflow-x: clip;
+    max-width: 100vw;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
@@ -194,6 +195,7 @@
 
   /* ============ 1. Hero ============ */
   .hero {
+    position: relative;
     min-height: 100svh;
     display: flex;
     flex-direction: column;
@@ -201,6 +203,7 @@
     justify-content: center;
     text-align: center;
     padding: 120px 0 72px;
+    overflow: hidden;
   }
   /* Drifting glow blobs — the red/green accent budget lives here, kept dim */
   .blob {
@@ -311,59 +314,68 @@
   .btn-ghost { border-color: var(--line-strong); color: var(--text); background: rgba(255,255,255,0.03); }
   .btn-ghost:hover { border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.06); }
 
-  /* 3D service carousel — ทุกบริการซ้อนวนเป็นวงแหวนสามมิติ แตะการ์ดเพื่อขยายดู */
-  .hero-stage { position: relative; width: min(860px, 100%); margin-bottom: 44px; }
-  .hero-stage::before {
-    content: "";
-    position: absolute;
-    left: 50%; bottom: 24px;
-    transform: translateX(-50%);
-    width: 100%; height: 70%;
-    background: radial-gradient(ellipse 62% 100% at 50% 100%, rgba(255,255,255,0.09), transparent 70%);
-    pointer-events: none;
-  }
+  /* 3D service carousel — ทุกบริการซ้อนวนเป็นวงแหวนสามมิติ แตะการ์ดเพื่อดึงมาด้านหน้า
+     JS จะไล่ opacity/blur ตามมุม ทำให้การ์ดหน้าสุดเด่นชัด ใบอื่นจางลงไม่ซ้อนกันรก */
+  .hero-stage { position: relative; width: min(860px, 100%); max-width: 100%; margin-bottom: 44px; }
   .hero-stage::after {
     content: "";
     position: absolute;
-    left: 6%; right: 6%; bottom: 24px;
+    left: 8%; right: 8%; bottom: 30px;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35) 30%, rgba(255,255,255,0.35) 70%, transparent);
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3) 30%, rgba(255,255,255,0.3) 70%, transparent);
   }
-  .c3d { position: relative; height: clamp(240px, 48vw, 300px); perspective: 1100px; }
+  .c3d {
+    position: relative;
+    height: clamp(230px, 52vw, 300px);
+    perspective: 1400px;
+    overflow: hidden; /* กันการ์ดด้านข้างล้นออกไปทำให้หน้าเว็บเลื่อนซ้ายขวา */
+  }
+  .c3d::before {
+    content: "";
+    position: absolute;
+    left: 50%; bottom: 26px;
+    transform: translateX(-50%);
+    width: 88%; height: 62%;
+    background: radial-gradient(ellipse 60% 100% at 50% 100%, rgba(255,255,255,0.08), transparent 70%);
+    pointer-events: none;
+  }
   .c3d-ring {
-    --r: clamp(190px, 38vw, 290px);
+    --r: clamp(232px, 62vw, 330px);
     position: absolute;
     left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
     transform-style: preserve-3d;
-    animation: ring3d 44s linear infinite; /* CSS fallback so the ring still spins where JS is blocked */
   }
-  html.js .c3d-ring { animation: none; } /* JS drives rotation for tap-to-focus */
-  @keyframes ring3d { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
+  html:not(.js) .c3d-ring { animation: ring3d 48s linear infinite; } /* fallback หมุนเองถ้า JS ถูกบล็อก */
+  @keyframes ring3d {
+    from { transform: translate(-50%, -50%) rotateY(0deg); }
+    to   { transform: translate(-50%, -50%) rotateY(360deg); }
+  }
   .c3d-card {
     position: absolute;
-    width: clamp(152px, 38vw, 198px);
-    height: 124px;
-    margin-left: calc(clamp(152px, 38vw, 198px) / -2);
-    margin-top: -62px;
+    width: clamp(150px, 42vw, 190px);
+    height: 128px;
+    margin-left: calc(clamp(150px, 42vw, 190px) / -2);
+    margin-top: -64px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
     gap: 3px;
     text-align: left;
-    padding: 12px 16px;
+    padding: 14px 18px;
     font-family: var(--font-thai);
     appearance: none;
-    background: rgba(19, 19, 24, 0.85);
+    background: rgba(17, 17, 22, 0.92);
     border: 1px solid var(--line-strong);
-    border-radius: 14px;
-    box-shadow: 0 12px 34px rgba(0, 0, 0, 0.5);
+    border-radius: 15px;
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.55);
     color: var(--text);
     cursor: pointer;
     transform: rotateY(calc(var(--i) * 36deg)) translateZ(var(--r));
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
-    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), background 0.3s ease, border-color 0.3s ease, opacity 0.3s ease;
+    will-change: opacity, filter;
   }
   .c3d-card .cnum { font-family: var(--font-display); font-size: 10.5px; font-weight: 600; letter-spacing: 0.16em; color: var(--faint); }
   .c3d-card .cnum.hl {
@@ -372,18 +384,15 @@
     background-clip: text;
     color: transparent;
   }
-  .c3d-card .cname { font-family: var(--font-display); font-size: 12.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; line-height: 1.35; }
+  .c3d-card .cname { font-family: var(--font-display); font-size: 13px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; line-height: 1.35; }
   .c3d-card .csub { font-size: 11.5px; color: var(--muted); line-height: 1.55; }
-  .c3d-card .cmore { display: none; font-size: 11px; font-weight: 600; color: var(--text); margin-top: 5px; border-bottom: 1px solid var(--line-strong); padding-bottom: 1px; }
-  .c3d-card.active {
-    transform: rotateY(calc(var(--i) * 36deg)) translateZ(calc(var(--r) + 48px)) scale(1.18);
-    background: #17171d;
-    border-color: rgba(255, 255, 255, 0.45);
-    z-index: 5;
+  .c3d-card .cmore { display: none; font-size: 11px; font-weight: 600; color: var(--text); margin-top: 6px; border-bottom: 1px solid var(--line-strong); padding-bottom: 1px; }
+  .c3d-card.is-front {
+    background: #191920;
+    border-color: rgba(255, 255, 255, 0.42);
   }
-  .c3d-card.active .cmore { display: inline-block; }
-  .c3d-ring.has-active .c3d-card:not(.active) { opacity: 0.3; }
-  .c3d-hint { font-size: 12px; color: var(--faint); text-align: center; letter-spacing: 0.04em; }
+  .c3d-card.is-front .cmore { display: inline-block; }
+  .c3d-hint { font-size: 12px; color: var(--faint); text-align: center; letter-spacing: 0.04em; margin-top: 4px; }
 
   .hero-scroll {
     display: inline-flex;
@@ -472,14 +481,116 @@
   .story-punch { font-size: clamp(22px, 4.6vw, 34px); font-weight: 700; line-height: 1.55; }
   @media (min-width: 820px) { .story-cards { grid-template-columns: 1fr 56px 1fr; align-items: stretch; } }
 
-  .story-media {
-    margin-top: 56px;
-    border: 1px dashed var(--line-strong);
+  /* ===== Team section (swipeable card rail + lightbox) ===== */
+  .team-wrap { margin-top: 60px; }
+  .team-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 22px; }
+  .team-head h3 { font-size: clamp(20px, 4vw, 28px); font-weight: 600; }
+  .team-head .swipe-hint { font-size: 12px; color: var(--faint); letter-spacing: 0.04em; white-space: nowrap; }
+
+  .team-rail {
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding: 4px 2px 16px;
+    margin: 0 -2px;
+    scrollbar-width: none;
+  }
+  .team-rail::-webkit-scrollbar { display: none; }
+
+  .team-card {
+    flex: 0 0 auto;
+    width: clamp(148px, 58vw, 188px);
+    aspect-ratio: 3 / 4;
+    scroll-snap-align: center;
+    position: relative;
+    border: 1px solid var(--line);
     border-radius: var(--radius);
-    background: linear-gradient(160deg, var(--surface), var(--bg-soft));
-    min-height: 220px;
+    overflow: hidden;
+    padding: 0;
+    cursor: pointer;
+    background: var(--surface);
+    color: var(--text);
+    font-family: var(--font-thai);
+    appearance: none;
+    transition: transform 0.28s ease, border-color 0.28s ease;
+  }
+  .team-card:hover { transform: translateY(-4px); border-color: var(--line-strong); }
+  .team-card .tph {
+    position: absolute; inset: 0;
     display: flex; align-items: center; justify-content: center;
-    color: var(--faint); font-size: 13px; letter-spacing: 0.08em;
+  }
+  .team-card .tph img { width: 100%; height: 100%; object-fit: cover; }
+  /* placeholder person glyph shown until a photo <img> is dropped in */
+  .team-card .tph .glyph { width: 42%; opacity: 0.5; }
+  /* soft accent gradients per card (kept dark & premium, hint of CI red/green) */
+  .g0 { background: linear-gradient(155deg, #23232b, #101014); }
+  .g1 { background: linear-gradient(155deg, #2a1c1f, #111014); }
+  .g2 { background: linear-gradient(155deg, #16241d, #101014); }
+  .g3 { background: linear-gradient(155deg, #202028, #14141a); }
+  .g4 { background: linear-gradient(155deg, #241a1c, #121016); }
+  .g5 { background: linear-gradient(155deg, #17211c, #101014); }
+  .team-card .meta {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    padding: 34px 14px 14px;
+    background: linear-gradient(to top, rgba(8,8,10,0.92) 30%, transparent);
+    text-align: left;
+  }
+  .team-card .t-name { font-size: 14px; font-weight: 600; line-height: 1.3; }
+  .team-card .t-role { font-size: 11.5px; color: var(--muted); line-height: 1.4; margin-top: 2px; }
+  .team-card .t-idx {
+    position: absolute; top: 12px; left: 12px;
+    font-family: var(--font-display); font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+    color: var(--text);
+    background: rgba(0,0,0,0.4);
+    border: 1px solid var(--line-strong);
+    border-radius: 999px; padding: 3px 9px;
+    backdrop-filter: blur(4px);
+  }
+
+  /* Lightbox */
+  .lb { position: fixed; inset: 0; z-index: 100; display: none; align-items: center; justify-content: center; padding: 24px; }
+  .lb.open { display: flex; }
+  .lb-backdrop { position: absolute; inset: 0; background: rgba(6,6,8,0.82); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+  .lb-stage { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 18px; width: min(360px, 86vw); }
+  .lb-photo {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid var(--line-strong);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .lb-photo img { width: 100%; height: 100%; object-fit: cover; }
+  .lb-photo .glyph { width: 38%; opacity: 0.5; }
+  .lb-info { text-align: center; }
+  .lb-name { font-size: clamp(20px, 5vw, 26px); font-weight: 600; }
+  .lb-role { font-size: 14px; color: var(--muted); margin-top: 4px; }
+  .lb-count { font-family: var(--font-display); font-size: 12px; letter-spacing: 0.12em; color: var(--faint); margin-top: 10px; }
+  .lb-btn {
+    position: absolute; z-index: 2;
+    width: 46px; height: 46px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    border: 1px solid var(--line-strong);
+    background: rgba(20,20,26,0.8);
+    color: var(--text);
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  .lb-btn:hover { background: rgba(40,40,50,0.9); transform: scale(1.06); }
+  .lb-btn svg { width: 20px; height: 20px; }
+  .lb-prev { left: max(14px, calc(50% - 260px)); top: 50%; transform: translateY(-50%); }
+  .lb-next { right: max(14px, calc(50% - 260px)); top: 50%; transform: translateY(-50%); }
+  .lb-prev:hover { transform: translateY(-50%) scale(1.06); }
+  .lb-next:hover { transform: translateY(-50%) scale(1.06); }
+  .lb-close { top: max(16px, 4vh); right: max(16px, 4vw); }
+  @media (max-width: 520px) {
+    .lb-prev { left: 8px; }
+    .lb-next { right: 8px; }
   }
 
   /* Stats strip */
@@ -712,6 +823,9 @@
 </head>
 <body>
 
+<!-- reusable person placeholder icon -->
+<svg style="display:none" aria-hidden="true"><symbol id="ico-person" viewBox="0 0 24 24"><path fill="currentColor" d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm0 2c-4.42 0-8 2.69-8 6v1a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-1c0-3.31-3.58-6-8-6Z"/></symbol></svg>
+
 <div class="progress" id="progress"></div>
 
 <!-- ============ NAV ============ -->
@@ -872,9 +986,104 @@
 
     <p class="story-punch reveal">ครบวงจรจริง ตั้งแต่<span class="grad-text">กลยุทธ์ ยันหน้าเว็บ ยันยิงแอด</span></p>
 
-    <div class="reveal">
-      <!-- IMAGE PLACEHOLDER: story — รูปภาพประกอบเรื่องราวความร่วมมือ (รอไฟล์เพิ่ม) -->
-      <div class="story-media">IMAGE — STORY</div>
+    <div class="team-wrap reveal">
+      <div class="team-head">
+        <h3>ทีมงานของเรา</h3>
+        <span class="swipe-hint">ปัดเพื่อดูเพิ่ม · แตะเพื่อดูแต่ละคน →</span>
+      </div>
+      <!-- TEAM: 15 placeholder cards. ใส่รูปแต่ละคนโดยแทน <svg class="glyph"> ด้วย <img src="..."> ในการ์ดนั้น -->
+      <div class="team-rail" id="teamRail">
+        <button class="team-card" type="button" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
+          <!-- TEAM PHOTO PLACEHOLDER: member-01 — แทน <svg class=glyph> ด้วย <img src="..." alt="ชื่อ"> -->
+          <span class="tph g0" data-g="g0"><svg class="glyph"><use href="#ico-person"/></svg></span>
+          <span class="t-idx">01</span>
+          <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
+        </button>
+        <button class="team-card" type="button" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
+          <!-- TEAM PHOTO PLACEHOLDER: member-02 — แทน <svg class=glyph> ด้วย <img src="..." alt="ชื่อ"> -->
+          <span class="tph g1" data-g="g1"><svg class="glyph"><use href="#ico-person"/></svg></span>
+          <span class="t-idx">02</span>
+          <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
+        </button>
+        <button class="team-card" type="button" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
+          <!-- TEAM PHOTO PLACEHOLDER: member-03 — แทน <svg class=glyph> ด้วย <img src="..." alt="ชื่อ"> -->
+          <span class="tph g2" data-g="g2"><svg class="glyph"><use href="#ico-person"/></svg></span>
+          <span class="t-idx">03</span>
+          <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
+        </button>
+        <button class="team-card" type="button" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
+          <!-- TEAM PHOTO PLACEHOLDER: member-04 — แทน <svg class=glyph> ด้วย <img src="..." alt="ชื่อ"> -->
+          <span class="tph g3" data-g="g3"><svg class="glyph"><use href="#ico-person"/></svg></span>
+          <span class="t-idx">04</span>
+          <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
+        </button>
+        <button class="team-card" type="button" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
+          <!-- TEAM PHOTO PLACEHOLDER: member-05 — แทน <svg class=glyph> ด้วย <img src="..." alt="ชื่อ"> -->
+          <span class="tph g4" data-g="g4"><svg class="glyph"><use href="#ico-person"/></svg></span>
+          <span class="t-idx">05</span>
+          <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
+        </button>
+        <button class="team-card" type="button" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
+          <!-- TEAM PHOTO PLACEHOLDER: member-06 — แทน <svg class=glyph> ด้วย <img src="..." alt="ชื่อ"> -->
+          <span class="tph g5" data-g="g5"><svg class="glyph"><use href="#ico-person"/></svg></span>
+          <span class="t-idx">06</span>
+          <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
+        </button>
+        <button class="team-card" type="button" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
+          <!-- TEAM PHOTO PLACEHOLDER: member-07 — แทน <svg class=glyph> ด้วย <img src="..." alt="ชื่อ"> -->
+          <span class="tph g0" data-g="g0"><svg class="glyph"><use href="#ico-person"/></svg></span>
+          <span class="t-idx">07</span>
+          <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
+        </button>
+        <button class="team-card" type="button" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
+          <!-- TEAM PHOTO PLACEHOLDER: member-08 — แทน <svg class=glyph> ด้วย <img src="..." alt="ชื่อ"> -->
+          <span class="tph g1" data-g="g1"><svg class="glyph"><use href="#ico-person"/></svg></span>
+          <span class="t-idx">08</span>
+          <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
+        </button>
+        <button class="team-card" type="button" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
+          <!-- TEAM PHOTO PLACEHOLDER: member-09 — แทน <svg class=glyph> ด้วย <img src="..." alt="ชื่อ"> -->
+          <span class="tph g2" data-g="g2"><svg class="glyph"><use href="#ico-person"/></svg></span>
+          <span class="t-idx">09</span>
+          <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
+        </button>
+        <button class="team-card" type="button" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
+          <!-- TEAM PHOTO PLACEHOLDER: member-10 — แทน <svg class=glyph> ด้วย <img src="..." alt="ชื่อ"> -->
+          <span class="tph g3" data-g="g3"><svg class="glyph"><use href="#ico-person"/></svg></span>
+          <span class="t-idx">10</span>
+          <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
+        </button>
+        <button class="team-card" type="button" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
+          <!-- TEAM PHOTO PLACEHOLDER: member-11 — แทน <svg class=glyph> ด้วย <img src="..." alt="ชื่อ"> -->
+          <span class="tph g4" data-g="g4"><svg class="glyph"><use href="#ico-person"/></svg></span>
+          <span class="t-idx">11</span>
+          <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
+        </button>
+        <button class="team-card" type="button" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
+          <!-- TEAM PHOTO PLACEHOLDER: member-12 — แทน <svg class=glyph> ด้วย <img src="..." alt="ชื่อ"> -->
+          <span class="tph g5" data-g="g5"><svg class="glyph"><use href="#ico-person"/></svg></span>
+          <span class="t-idx">12</span>
+          <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
+        </button>
+        <button class="team-card" type="button" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
+          <!-- TEAM PHOTO PLACEHOLDER: member-13 — แทน <svg class=glyph> ด้วย <img src="..." alt="ชื่อ"> -->
+          <span class="tph g0" data-g="g0"><svg class="glyph"><use href="#ico-person"/></svg></span>
+          <span class="t-idx">13</span>
+          <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
+        </button>
+        <button class="team-card" type="button" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
+          <!-- TEAM PHOTO PLACEHOLDER: member-14 — แทน <svg class=glyph> ด้วย <img src="..." alt="ชื่อ"> -->
+          <span class="tph g1" data-g="g1"><svg class="glyph"><use href="#ico-person"/></svg></span>
+          <span class="t-idx">14</span>
+          <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
+        </button>
+        <button class="team-card" type="button" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
+          <!-- TEAM PHOTO PLACEHOLDER: member-15 — แทน <svg class=glyph> ด้วย <img src="..." alt="ชื่อ"> -->
+          <span class="tph g2" data-g="g2"><svg class="glyph"><use href="#ico-person"/></svg></span>
+          <span class="t-idx">15</span>
+          <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
+        </button>
+      </div>
     </div>
 
     <div class="stats stagger">
@@ -1093,6 +1302,28 @@
   </div>
 </section>
 
+<!-- ============ TEAM LIGHTBOX ============ -->
+<div class="lb" id="teamLb" aria-hidden="true" role="dialog" aria-modal="true" aria-label="รายละเอียดทีมงาน">
+  <div class="lb-backdrop" data-lb-close></div>
+  <button class="lb-btn lb-close" id="lbClose" aria-label="ปิด">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+  <button class="lb-btn lb-prev" id="lbPrev" aria-label="คนก่อนหน้า">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+  </button>
+  <button class="lb-btn lb-next" id="lbNext" aria-label="คนถัดไป">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
+  </button>
+  <div class="lb-stage">
+    <div class="lb-photo" id="lbPhoto"></div>
+    <div class="lb-info">
+      <div class="lb-name" id="lbName"></div>
+      <div class="lb-role" id="lbRole"></div>
+      <div class="lb-count" id="lbCount"></div>
+    </div>
+  </div>
+</div>
+
 <!-- ============ FOOTER ============ -->
 <footer class="footer">
   <div class="container">
@@ -1141,56 +1372,118 @@
     reveals.forEach((el) => el.classList.add('is-visible'));
   }
 
-  // 3D service carousel: auto-spins; tap a card to rotate it to the front and
-  // expand it; tap the focused card again to jump to the services section
+  // 3D service ring: slowly auto-spins. Each frame we compute every card's angle
+  // to the front and set opacity + blur from it, so only the front card is crisp
+  // and the rest fade back — no more overlapping clutter. Tap a card to rotate it
+  // to the front; tap the front card again to jump to the services section. Drag
+  // left/right to spin it by hand.
   const ring3d = document.getElementById('c3dRing');
   if (ring3d) {
     const cards3d = Array.from(ring3d.children);
     const stepDeg = 360 / cards3d.length;
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const spinSpeed = reduceMotion ? 0 : 8; // deg per second
-    let ang = 0, target = null, activeIdx = -1, last = performance.now();
+    const spinSpeed = reduceMotion ? 0 : 6; // deg per second
+    let ang = 0, target = null, idle = 0, last = performance.now();
+    let frontIdx = 0;
+
+    const norm = (a) => { a = ((a % 360) + 360) % 360; return a > 180 ? a - 360 : a; };
 
     const tick = (now) => {
-      const dt = Math.min((now - last) / 1000, 0.1);
+      const dt = Math.min((now - last) / 1000, 0.05);
       last = now;
       if (target !== null) {
-        const diff = target - ang;
-        ang += diff * Math.min(1, dt * 6);
-        if (Math.abs(diff) < 0.15) { ang = target; target = null; }
-      } else if (activeIdx === -1) {
-        ang += spinSpeed * dt;
+        ang += (target - ang) * Math.min(1, dt * 6);
+        if (Math.abs(target - ang) < 0.1) { ang = target; target = null; }
+      } else {
+        idle += dt;
+        if (idle > 3.5) ang += spinSpeed * dt; // resume gentle spin after a pause
       }
-      ring3d.style.transform = 'rotateY(' + ang + 'deg)';
+      ring3d.style.transform = 'translate(-50%, -50%) rotateY(' + ang + 'deg)';
+
+      let bestW = -2;
+      cards3d.forEach((card, i) => {
+        const a = norm(ang + i * stepDeg);      // 0 = facing viewer
+        const w = Math.cos(a * Math.PI / 180);   // 1 front, -1 back
+        const fw = Math.max(0, w);
+        card.style.opacity = (0.12 + 0.88 * Math.pow(fw, 2.4)).toFixed(3);
+        card.style.filter = 'blur(' + ((1 - fw) * 1.7).toFixed(2) + 'px)';
+        card.style.zIndex = String(Math.round(w * 100) + 200);
+        if (w > bestW) { bestW = w; frontIdx = i; }
+      });
+      cards3d.forEach((card, i) => card.classList.toggle('is-front', i === frontIdx));
       requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);
 
-    const deselect3d = () => {
-      if (activeIdx === -1) return;
-      cards3d[activeIdx].classList.remove('active');
-      ring3d.classList.remove('has-active');
-      activeIdx = -1;
+    const bringToFront = (i) => {
+      const t = -i * stepDeg;
+      target = t + Math.round((ang - t) / 360) * 360; // shortest path
+      idle = 0;
     };
+
+    // Pointer drag to spin by hand (horizontal); a real drag suppresses the click
+    let down = false, moved = false, startX = 0, startAng = 0;
+    const scene = ring3d.parentElement;
+    scene.addEventListener('pointerdown', (e) => {
+      down = true; moved = false; startX = e.clientX; startAng = ang; target = null; idle = 0;
+    });
+    window.addEventListener('pointermove', (e) => {
+      if (!down) return;
+      const dx = e.clientX - startX;
+      if (Math.abs(dx) > 4) moved = true;
+      ang = startAng + dx * 0.35;
+      idle = 0;
+    });
+    window.addEventListener('pointerup', () => { down = false; });
 
     cards3d.forEach((card, i) => {
       card.addEventListener('click', (e) => {
         e.stopPropagation();
-        if (activeIdx === i) {
-          deselect3d();
+        if (moved) return;                 // ignore click that ended a drag
+        if (i === frontIdx) {
           document.getElementById('services').scrollIntoView({ behavior: 'smooth' });
-          return;
+        } else {
+          bringToFront(i);
         }
-        deselect3d();
-        activeIdx = i;
-        card.classList.add('active');
-        ring3d.classList.add('has-active');
-        const t = -i * stepDeg; // shortest path to bring card i to the front
-        target = t + Math.round((ang - t) / 360) * 360;
       });
     });
-    document.addEventListener('click', (e) => {
-      if (!e.target.closest('.c3d-card')) deselect3d();
+  }
+
+  // Team lightbox: click a card to open an enlarged view; ‹ › cycle through
+  // everyone (wrapping), ✕ / backdrop / Esc closes; arrow keys navigate too.
+  const teamRail = document.getElementById('teamRail');
+  const lb = document.getElementById('teamLb');
+  if (teamRail && lb) {
+    const cards = Array.from(teamRail.querySelectorAll('.team-card'));
+    const lbPhoto = document.getElementById('lbPhoto');
+    const lbName = document.getElementById('lbName');
+    const lbRole = document.getElementById('lbRole');
+    const lbCount = document.getElementById('lbCount');
+    let cur = 0;
+
+    const render = () => {
+      const card = cards[cur];
+      const ph = card.querySelector('.tph');
+      lbPhoto.className = 'lb-photo ' + (ph.dataset.g || '');
+      lbPhoto.innerHTML = ph.innerHTML; // carries a future <img> or the glyph
+      lbName.textContent = card.dataset.name || '';
+      lbRole.textContent = card.dataset.role || '';
+      lbCount.textContent = (cur + 1) + ' / ' + cards.length;
+    };
+    const open = (i) => { cur = i; render(); lb.classList.add('open'); lb.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden'; };
+    const close = () => { lb.classList.remove('open'); lb.setAttribute('aria-hidden', 'true'); document.body.style.overflow = ''; };
+    const go = (d) => { cur = (cur + d + cards.length) % cards.length; render(); };
+
+    cards.forEach((card, i) => card.addEventListener('click', () => open(i)));
+    document.getElementById('lbPrev').addEventListener('click', (e) => { e.stopPropagation(); go(-1); });
+    document.getElementById('lbNext').addEventListener('click', (e) => { e.stopPropagation(); go(1); });
+    document.getElementById('lbClose').addEventListener('click', close);
+    lb.querySelectorAll('[data-lb-close]').forEach((el) => el.addEventListener('click', close));
+    document.addEventListener('keydown', (e) => {
+      if (!lb.classList.contains('open')) return;
+      if (e.key === 'Escape') close();
+      else if (e.key === 'ArrowLeft') go(-1);
+      else if (e.key === 'ArrowRight') go(1);
     });
   }
 
