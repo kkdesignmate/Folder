@@ -799,24 +799,24 @@
   .client-track {
     display: flex;
     align-items: center;
-    gap: 44px;
+    gap: 30px;
     width: max-content;
-    animation: client-scroll 45s linear infinite; /* slow, continuous */
+    animation: client-scroll 90s linear infinite; /* slow, continuous */
     will-change: transform;
   }
   .client-strip:hover .client-track { animation-play-state: paused; }
   @keyframes client-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
   .client-logo {
     flex: 0 0 auto;
-    width: 140px; height: 58px;
-    display: flex; align-items: center; justify-content: center;
-    border: 1px dashed var(--line-strong);
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.02);
-    color: var(--faint);
-    font-family: var(--font-display); font-size: 11px; letter-spacing: 0.12em;
+    width: 68px; height: 68px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: block;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06);
+    transition: transform 0.25s ease;
   }
-  .client-logo img { max-width: 78%; max-height: 66%; object-fit: contain; filter: grayscale(1) brightness(1.7); opacity: 0.85; }
+  .client-logo:hover { transform: scale(1.08); }
+  .client-logo img { width: 100%; height: 100%; object-fit: cover; display: block; }
   @media (prefers-reduced-motion: reduce) { .client-track { animation: none; } }
 
   /* ============ 5. Work ============ */
@@ -893,6 +893,7 @@
   .channel .who { color: var(--muted); font-size: 12.5px; }
   @media (min-width: 700px) { .contact-channels { grid-template-columns: repeat(3, 1fr); } .channel { flex-direction: column; align-items: flex-start; gap: 8px; } }
 
+  .qr-row { display: flex; flex-wrap: wrap; gap: 26px; justify-content: center; }
   .qr-box { display: inline-flex; flex-direction: column; align-items: center; gap: 12px; }
   .qr-slot {
     width: 148px; height: 148px;
@@ -1412,22 +1413,120 @@
   <!-- CLIENT LOGOS: แถบเลื่อนอัตโนมัติเต็มจอ — แทน .client-logo แต่ละอันด้วย <img src="โลโก้ลูกค้า" alt="ชื่อลูกค้า"> -->
   <div class="client-strip reveal" aria-label="โลโก้ลูกค้าที่ไว้วางใจเรา">
     <div class="client-track">
-      <span class="client-logo">LOGO 01</span>
-      <span class="client-logo">LOGO 02</span>
-      <span class="client-logo">LOGO 03</span>
-      <span class="client-logo">LOGO 04</span>
-      <span class="client-logo">LOGO 05</span>
-      <span class="client-logo">LOGO 06</span>
-      <span class="client-logo">LOGO 07</span>
-      <span class="client-logo">LOGO 08</span>
-      <span class="client-logo" aria-hidden="true">LOGO 01</span>
-      <span class="client-logo" aria-hidden="true">LOGO 02</span>
-      <span class="client-logo" aria-hidden="true">LOGO 03</span>
-      <span class="client-logo" aria-hidden="true">LOGO 04</span>
-      <span class="client-logo" aria-hidden="true">LOGO 05</span>
-      <span class="client-logo" aria-hidden="true">LOGO 06</span>
-      <span class="client-logo" aria-hidden="true">LOGO 07</span>
-      <span class="client-logo" aria-hidden="true">LOGO 08</span>
+      <span class="client-logo"><img src="clients/1.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/2.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/3.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/4.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/5.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/6.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/7.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/8.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/9.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/10.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/11.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/12.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/13.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/14.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/15.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/16.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/17.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/18.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/19.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/20.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/21.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/22.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/23.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/24.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/25.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/26.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/27.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/28.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/29.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/30.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/31.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/32.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/33.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/34.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/35.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/36.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/37.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/38.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/39.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/40.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/41.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/42.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/43.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/44.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/45.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/46.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/47.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/48.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/49.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/50.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/51.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/52.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/53.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/54.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/55.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/56.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo"><img src="clients/57.png" alt="โลโก้ลูกค้า" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/1.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/2.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/3.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/4.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/5.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/6.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/7.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/8.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/9.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/10.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/11.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/12.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/13.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/14.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/15.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/16.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/17.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/18.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/19.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/20.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/21.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/22.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/23.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/24.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/25.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/26.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/27.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/28.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/29.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/30.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/31.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/32.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/33.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/34.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/35.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/36.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/37.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/38.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/39.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/40.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/41.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/42.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/43.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/44.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/45.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/46.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/47.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/48.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/49.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/50.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/51.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/52.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/53.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/54.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/55.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/56.png" alt="" loading="lazy" width="68" height="68"></span>
+      <span class="client-logo" aria-hidden="true"><img src="clients/57.png" alt="" loading="lazy" width="68" height="68"></span>
     </div>
   </div>
 
@@ -1492,10 +1591,15 @@
         </div>
       </div>
 
-      <div class="qr-box">
-        <!-- QR code -> https://mnop.designmate.work (generated, scannable) -->
-        <a class="qr-slot" href="https://mnop.designmate.work" aria-label="สแกนหรือแตะเพื่อเปิด mnop.designmate.work"><svg viewBox="0 0 37 37" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg"><path stroke="#0a0a0c" d="M2 2.5h7m2 0h2m1 0h1m5 0h1m2 0h1m1 0h2m1 0h7m-33 1h1m5 0h1m7 0h1m2 0h1m1 0h2m1 0h2m2 0h1m5 0h1m-33 1h1m1 0h3m1 0h1m2 0h1m1 0h2m3 0h2m1 0h2m2 0h1m2 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m6 0h1m4 0h3m1 0h3m1 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m1 0h4m1 0h3m3 0h1m1 0h4m1 0h1m1 0h3m1 0h1m-33 1h1m5 0h1m4 0h1m1 0h4m1 0h2m1 0h1m1 0h1m2 0h1m5 0h1m-33 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-25 1h3m1 0h2m1 0h2m7 0h1m-23 1h2m2 0h5m1 0h2m1 0h4m2 0h1m1 0h1m1 0h2m1 0h1m-27 1h1m2 0h1m3 0h2m1 0h1m2 0h2m1 0h9m2 0h2m1 0h1m-32 1h4m1 0h4m1 0h4m3 0h1m4 0h2m1 0h1m3 0h3m-33 1h1m2 0h2m4 0h1m4 0h1m2 0h2m1 0h1m3 0h2m1 0h3m-30 1h1m2 0h2m1 0h1m1 0h1m1 0h1m1 0h1m1 0h2m4 0h2m2 0h1m2 0h1m3 0h2m-33 1h1m1 0h2m1 0h1m2 0h3m2 0h2m2 0h2m1 0h3m1 0h1m4 0h1m-30 1h1m1 0h2m1 0h4m4 0h1m1 0h1m2 0h1m2 0h1m3 0h1m2 0h1m1 0h1m-30 1h2m7 0h1m1 0h1m2 0h1m3 0h4m2 0h1m1 0h1m1 0h2m-30 1h3m1 0h4m2 0h2m2 0h1m2 0h4m1 0h4m1 0h4m-30 1h3m2 0h5m3 0h2m1 0h1m1 0h1m1 0h2m2 0h3m1 0h1m1 0h1m-32 1h1m1 0h2m1 0h2m2 0h1m3 0h1m2 0h4m4 0h2m3 0h2m-31 1h1m2 0h1m3 0h1m1 0h1m4 0h1m4 0h1m1 0h1m4 0h2m2 0h1m-32 1h1m3 0h1m1 0h2m3 0h2m2 0h3m3 0h1m2 0h1m1 0h2m1 0h2m1 0h1m-33 1h2m1 0h3m1 0h3m2 0h1m1 0h2m3 0h3m2 0h1m4 0h1m2 0h1m-28 1h5m3 0h1m1 0h1m3 0h6m1 0h7m-32 1h4m4 0h2m1 0h1m1 0h2m3 0h2m4 0h1m1 0h1m1 0h1m-30 1h1m2 0h1m2 0h1m3 0h2m5 0h3m2 0h1m1 0h5m3 0h1m-25 1h3m5 0h3m1 0h2m1 0h2m3 0h1m1 0h1m-31 1h7m1 0h1m1 0h2m1 0h1m3 0h5m1 0h2m1 0h1m1 0h1m1 0h1m-31 1h1m5 0h1m2 0h4m2 0h1m1 0h2m1 0h1m2 0h2m3 0h5m-33 1h1m1 0h3m1 0h1m2 0h1m3 0h1m1 0h1m2 0h1m1 0h1m1 0h10m-32 1h1m1 0h3m1 0h1m1 0h1m3 0h1m1 0h1m3 0h2m1 0h2m4 0h1m2 0h1m-31 1h1m1 0h3m1 0h1m1 0h3m9 0h1m2 0h4m2 0h1m-30 1h1m5 0h1m2 0h3m1 0h1m2 0h2m1 0h2m1 0h4m3 0h1m2 0h1m-33 1h7m4 0h1m2 0h3m2 0h1m1 0h1m1 0h1m1 0h4"/></svg></a>
-        <span class="qr-caption">mnop.designmate.work</span>
+      <div class="qr-row">
+        <div class="qr-box">
+          <a class="qr-slot" href="https://mnop.designmate.work" aria-label="สแกนหรือแตะเพื่อเปิด mnop.designmate.work"><svg viewBox="0 0 37 37" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg"><path stroke="#0a0a0c" d="M2 2.5h7m2 0h2m1 0h1m5 0h1m2 0h1m1 0h2m1 0h7m-33 1h1m5 0h1m7 0h1m2 0h1m1 0h2m1 0h2m2 0h1m5 0h1m-33 1h1m1 0h3m1 0h1m2 0h1m1 0h2m3 0h2m1 0h2m2 0h1m2 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m6 0h1m4 0h3m1 0h3m1 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m1 0h4m1 0h3m3 0h1m1 0h4m1 0h1m1 0h3m1 0h1m-33 1h1m5 0h1m4 0h1m1 0h4m1 0h2m1 0h1m1 0h1m2 0h1m5 0h1m-33 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-25 1h3m1 0h2m1 0h2m7 0h1m-23 1h2m2 0h5m1 0h2m1 0h4m2 0h1m1 0h1m1 0h2m1 0h1m-27 1h1m2 0h1m3 0h2m1 0h1m2 0h2m1 0h9m2 0h2m1 0h1m-32 1h4m1 0h4m1 0h4m3 0h1m4 0h2m1 0h1m3 0h3m-33 1h1m2 0h2m4 0h1m4 0h1m2 0h2m1 0h1m3 0h2m1 0h3m-30 1h1m2 0h2m1 0h1m1 0h1m1 0h1m1 0h1m1 0h2m4 0h2m2 0h1m2 0h1m3 0h2m-33 1h1m1 0h2m1 0h1m2 0h3m2 0h2m2 0h2m1 0h3m1 0h1m4 0h1m-30 1h1m1 0h2m1 0h4m4 0h1m1 0h1m2 0h1m2 0h1m3 0h1m2 0h1m1 0h1m-30 1h2m7 0h1m1 0h1m2 0h1m3 0h4m2 0h1m1 0h1m1 0h2m-30 1h3m1 0h4m2 0h2m2 0h1m2 0h4m1 0h4m1 0h4m-30 1h3m2 0h5m3 0h2m1 0h1m1 0h1m1 0h2m2 0h3m1 0h1m1 0h1m-32 1h1m1 0h2m1 0h2m2 0h1m3 0h1m2 0h4m4 0h2m3 0h2m-31 1h1m2 0h1m3 0h1m1 0h1m4 0h1m4 0h1m1 0h1m4 0h2m2 0h1m-32 1h1m3 0h1m1 0h2m3 0h2m2 0h3m3 0h1m2 0h1m1 0h2m1 0h2m1 0h1m-33 1h2m1 0h3m1 0h3m2 0h1m1 0h2m3 0h3m2 0h1m4 0h1m2 0h1m-28 1h5m3 0h1m1 0h1m3 0h6m1 0h7m-32 1h4m4 0h2m1 0h1m1 0h2m3 0h2m4 0h1m1 0h1m1 0h1m-30 1h1m2 0h1m2 0h1m3 0h2m5 0h3m2 0h1m1 0h5m3 0h1m-25 1h3m5 0h3m1 0h2m1 0h2m3 0h1m1 0h1m-31 1h7m1 0h1m1 0h2m1 0h1m3 0h5m1 0h2m1 0h1m1 0h1m1 0h1m-31 1h1m5 0h1m2 0h4m2 0h1m1 0h2m1 0h1m2 0h2m3 0h5m-33 1h1m1 0h3m1 0h1m2 0h1m3 0h1m1 0h1m2 0h1m1 0h1m1 0h10m-32 1h1m1 0h3m1 0h1m1 0h1m3 0h1m1 0h1m3 0h2m1 0h2m4 0h1m2 0h1m-31 1h1m1 0h3m1 0h1m1 0h3m9 0h1m2 0h4m2 0h1m-30 1h1m5 0h1m2 0h3m1 0h1m2 0h2m1 0h2m1 0h4m3 0h1m2 0h1m-33 1h7m4 0h1m2 0h3m2 0h1m1 0h1m1 0h1m1 0h4"/></svg></a>
+          <span class="qr-caption">เว็บไซต์</span>
+        </div>
+        <div class="qr-box">
+          <a class="qr-slot" href="https://lin.ee/tGRPQDu" target="_blank" rel="noopener" aria-label="เพิ่มเพื่อน LINE @113bouxt"><svg viewBox="0 0 33 33" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg"><path class="qrline" stroke="#0a0a0c" d="M2 2.5h7m2 0h4m1 0h5m3 0h7m-29 1h1m5 0h1m2 0h2m1 0h2m1 0h1m2 0h1m1 0h1m1 0h1m5 0h1m-29 1h1m1 0h3m1 0h1m4 0h5m3 0h1m2 0h1m1 0h3m1 0h1m-29 1h1m1 0h3m1 0h1m6 0h1m3 0h2m3 0h1m1 0h3m1 0h1m-29 1h1m1 0h3m1 0h1m1 0h2m3 0h2m1 0h1m2 0h1m2 0h1m1 0h3m1 0h1m-29 1h1m5 0h1m2 0h2m1 0h1m3 0h5m1 0h1m5 0h1m-29 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-21 1h1m1 0h1m3 0h1m1 0h1m3 0h1m-19 1h2m2 0h3m2 0h1m1 0h4m1 0h1m2 0h2m1 0h1m-23 1h1m2 0h1m1 0h1m2 0h5m1 0h1m1 0h1m4 0h3m2 0h1m-24 1h2m2 0h1m2 0h1m2 0h1m2 0h1m3 0h6m-24 1h2m7 0h2m4 0h2m4 0h1m2 0h1m-29 1h3m1 0h1m1 0h3m1 0h4m4 0h1m2 0h1m1 0h1m2 0h3m-29 1h3m1 0h2m1 0h1m1 0h1m3 0h4m2 0h1m2 0h2m1 0h2m1 0h1m-28 1h3m2 0h1m1 0h2m3 0h1m2 0h1m1 0h2m2 0h4m1 0h2m-28 1h2m6 0h3m1 0h5m2 0h2m2 0h2m-26 1h3m1 0h8m1 0h1m4 0h2m1 0h1m3 0h1m1 0h1m-25 1h3m1 0h1m1 0h3m1 0h3m2 0h1m1 0h4m2 0h1m-27 1h1m2 0h1m1 0h2m1 0h3m3 0h1m7 0h2m1 0h2m-23 1h1m2 0h2m1 0h2m1 0h1m3 0h2m2 0h2m2 0h2m1 0h1m-28 1h1m4 0h1m2 0h1m1 0h1m5 0h8m1 0h3m-21 1h1m2 0h5m1 0h1m2 0h1m3 0h2m1 0h2m-29 1h7m1 0h2m2 0h3m4 0h2m1 0h1m1 0h1m1 0h2m-28 1h1m5 0h1m2 0h2m1 0h2m1 0h4m1 0h1m3 0h1m-25 1h1m1 0h3m1 0h1m3 0h2m1 0h1m1 0h2m1 0h1m1 0h7m1 0h1m-29 1h1m1 0h3m1 0h1m1 0h1m1 0h1m2 0h2m2 0h3m4 0h4m-28 1h1m1 0h3m1 0h1m1 0h1m5 0h1m2 0h2m1 0h1m2 0h1m1 0h1m2 0h1m-29 1h1m5 0h1m2 0h1m1 0h1m2 0h4m3 0h1m2 0h2m1 0h1m-28 1h7m5 0h1m2 0h1m1 0h1m1 0h3m1 0h1m2 0h2"/></svg></a>
+          <span class="qr-caption">LINE @113bouxt</span>
+        </div>
       </div>
     </div>
   </div>
