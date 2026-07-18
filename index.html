@@ -205,22 +205,41 @@
     padding: 120px 0 72px;
     overflow: hidden;
   }
-  /* Drifting glow blobs — the red/green accent budget lives here, kept dim */
+  /* Liquid glow blobs — red/green accent budget; slow organic flow + morph */
   .blob {
     position: absolute;
-    width: 46vw; max-width: 520px;
+    width: 48vw; max-width: 560px;
     aspect-ratio: 1;
-    border-radius: 50%;
+    border-radius: 42% 58% 55% 45% / 48% 42% 58% 52%;
     filter: blur(90px);
     pointer-events: none;
-    animation: blob-drift 14s ease-in-out infinite alternate;
+    will-change: transform, border-radius;
   }
-  .blob-red { top: -12%; left: -14%; background: radial-gradient(circle, rgba(224, 52, 62, 0.17), transparent 65%); }
-  .blob-green { top: -14%; right: -14%; background: radial-gradient(circle, rgba(20, 184, 102, 0.14), transparent 65%); animation-delay: -7s; }
-  @keyframes blob-drift {
-    from { transform: translate(0, 0) scale(1); }
-    to   { transform: translate(6vw, 8vh) scale(1.15); }
+  .blob-red {
+    top: -14%; left: -16%;
+    background: radial-gradient(circle at 40% 40%, rgba(224, 52, 62, 0.18), transparent 66%);
+    animation: liquid-a 22s ease-in-out infinite;
   }
+  .blob-green {
+    top: -16%; right: -16%;
+    background: radial-gradient(circle at 60% 40%, rgba(20, 184, 102, 0.15), transparent 66%);
+    animation: liquid-b 26s ease-in-out infinite;
+  }
+  @keyframes liquid-a {
+    0%   { transform: translate(0, 0) scale(1) rotate(0deg);       border-radius: 42% 58% 55% 45% / 48% 42% 58% 52%; }
+    25%  { transform: translate(7vw, 5vh) scale(1.14) rotate(20deg);border-radius: 60% 40% 48% 52% / 42% 58% 42% 58%; }
+    50%  { transform: translate(3vw, 11vh) scale(0.94) rotate(8deg);border-radius: 46% 54% 62% 38% / 56% 44% 56% 44%; }
+    75%  { transform: translate(-4vw, 6vh) scale(1.08) rotate(-14deg);border-radius: 55% 45% 40% 60% / 45% 60% 40% 55%; }
+    100% { transform: translate(0, 0) scale(1) rotate(0deg);       border-radius: 42% 58% 55% 45% / 48% 42% 58% 52%; }
+  }
+  @keyframes liquid-b {
+    0%   { transform: translate(0, 0) scale(1) rotate(0deg);         border-radius: 58% 42% 45% 55% / 52% 58% 42% 48%; }
+    25%  { transform: translate(-6vw, 6vh) scale(1.12) rotate(-18deg);border-radius: 40% 60% 55% 45% / 58% 42% 58% 42%; }
+    50%  { transform: translate(-3vw, 12vh) scale(0.96) rotate(-6deg);border-radius: 54% 46% 38% 62% / 44% 56% 44% 56%; }
+    75%  { transform: translate(5vw, 7vh) scale(1.06) rotate(16deg); border-radius: 45% 55% 60% 40% / 60% 40% 55% 45%; }
+    100% { transform: translate(0, 0) scale(1) rotate(0deg);         border-radius: 58% 42% 45% 55% / 52% 58% 42% 48%; }
+  }
+  @media (prefers-reduced-motion: reduce) { .blob { animation: none !important; } }
   .hero-grid-bg {
     position: absolute;
     inset: 0;
@@ -392,6 +411,14 @@
     border-color: rgba(255, 255, 255, 0.42);
   }
   .c3d-card.is-front .cmore { display: inline-block; }
+  /* hover lift — brightens the card & adds a soft glow (no transform, so it
+     never fights the ring's 3D rotation) */
+  .c3d-card { transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease; }
+  .c3d-card:hover {
+    background: #20202a;
+    border-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12), 0 20px 46px rgba(0, 0, 0, 0.6);
+  }
   .c3d-hint { font-size: 12px; color: var(--faint); text-align: center; letter-spacing: 0.04em; margin-top: 4px; }
 
   .hero-scroll {
@@ -499,7 +526,7 @@
     height: clamp(372px, 98vw, 480px);
     overflow-x: auto;
     overflow-y: hidden;
-    scroll-snap-type: x proximity;
+    scroll-snap-type: none;   /* auto-scroll/arrows drive it; snap would fight the loop */
     -webkit-overflow-scrolling: touch;
     padding: 4px 2px 18px;
     margin: 0 -2px;
@@ -948,43 +975,43 @@
             <span class="cmore">ดูรายละเอียดบริการ ↓</span>
           </button>
           <button type="button" class="c3d-card" style="--i:3">
-            <span class="cnum hl">★ WEB</span>
+            <span class="cnum">04</span>
             <span class="cname">Website Design &amp; Dev</span>
             <span class="csub">ออกแบบและพัฒนาเว็บไซต์</span>
             <span class="cmore">ดูรายละเอียดบริการ ↓</span>
           </button>
           <button type="button" class="c3d-card" style="--i:4">
-            <span class="cnum">04</span>
+            <span class="cnum">05</span>
             <span class="cname">Setup Channel</span>
             <span class="csub">จัดตั้งและวางระบบช่องทางออนไลน์</span>
             <span class="cmore">ดูรายละเอียดบริการ ↓</span>
           </button>
           <button type="button" class="c3d-card" style="--i:5">
-            <span class="cnum hl">★ SEO</span>
+            <span class="cnum">06</span>
             <span class="cname">Monthly SEO Retainer</span>
             <span class="csub">บริการดูแล SEO รายเดือน</span>
             <span class="cmore">ดูรายละเอียดบริการ ↓</span>
           </button>
           <button type="button" class="c3d-card" style="--i:6">
-            <span class="cnum">05</span>
+            <span class="cnum">07</span>
             <span class="cname">Content Creation</span>
             <span class="csub">ผลิตและสร้างสรรค์คอนเทนต์</span>
             <span class="cmore">ดูรายละเอียดบริการ ↓</span>
           </button>
           <button type="button" class="c3d-card" style="--i:7">
-            <span class="cnum">06</span>
+            <span class="cnum">08</span>
             <span class="cname">Influencer Management</span>
             <span class="csub">บริหารและจัดการอินฟลูเอนเซอร์</span>
             <span class="cmore">ดูรายละเอียดบริการ ↓</span>
           </button>
           <button type="button" class="c3d-card" style="--i:8">
-            <span class="cnum">07</span>
+            <span class="cnum">09</span>
             <span class="cname">Ads Optimize</span>
             <span class="csub">บริหารและเพิ่มประสิทธิภาพโฆษณา</span>
             <span class="cmore">ดูรายละเอียดบริการ ↓</span>
           </button>
           <button type="button" class="c3d-card" style="--i:9">
-            <span class="cnum">08</span>
+            <span class="cnum">10</span>
             <span class="cname">Stat Evaluation</span>
             <span class="csub">วัดผล ประเมินสถิติ และพัฒนาต่อยอด</span>
             <span class="cmore">ดูรายละเอียดบริการ ↓</span>
@@ -1060,92 +1087,167 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
         </button>
         <div class="team-rail" id="teamRail">
-        <button class="team-card tall" type="button" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
+        <button class="team-card tall" type="button" data-idx="0" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
           <!-- TEAM PHOTO PLACEHOLDER: member-01 — แทน <svg class=glyph> ด้วย <img src="..." alt="ชื่อ"> -->
           <span class="tph g0" data-g="g0"><svg class="glyph"><use href="#ico-person"/></svg></span>
           <span class="t-idx">01</span>
           <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
         </button>
-        <button class="team-card" type="button" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
+        <button class="team-card" type="button" data-idx="1" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
           <!-- TEAM PHOTO PLACEHOLDER: member-02 — แทน <svg class=glyph> ด้วย <img src="..." alt="ชื่อ"> -->
           <span class="tph g1" data-g="g1"><svg class="glyph"><use href="#ico-person"/></svg></span>
           <span class="t-idx">02</span>
           <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
         </button>
-        <button class="team-card" type="button" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
+        <button class="team-card" type="button" data-idx="2" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
           <!-- TEAM PHOTO PLACEHOLDER: member-03 — แทน <svg class=glyph> ด้วย <img src="..." alt="ชื่อ"> -->
           <span class="tph g2" data-g="g2"><svg class="glyph"><use href="#ico-person"/></svg></span>
           <span class="t-idx">03</span>
           <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
         </button>
-        <button class="team-card tall" type="button" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
+        <button class="team-card tall" type="button" data-idx="3" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
           <!-- TEAM PHOTO PLACEHOLDER: member-04 — แทน <svg class=glyph> ด้วย <img src="..." alt="ชื่อ"> -->
           <span class="tph g3" data-g="g3"><svg class="glyph"><use href="#ico-person"/></svg></span>
           <span class="t-idx">04</span>
           <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
         </button>
-        <button class="team-card" type="button" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
+        <button class="team-card" type="button" data-idx="4" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
           <!-- TEAM PHOTO PLACEHOLDER: member-05 — แทน <svg class=glyph> ด้วย <img src="..." alt="ชื่อ"> -->
           <span class="tph g4" data-g="g4"><svg class="glyph"><use href="#ico-person"/></svg></span>
           <span class="t-idx">05</span>
           <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
         </button>
-        <button class="team-card" type="button" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
+        <button class="team-card" type="button" data-idx="5" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
           <!-- TEAM PHOTO PLACEHOLDER: member-06 — แทน <svg class=glyph> ด้วย <img src="..." alt="ชื่อ"> -->
           <span class="tph g5" data-g="g5"><svg class="glyph"><use href="#ico-person"/></svg></span>
           <span class="t-idx">06</span>
           <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
         </button>
-        <button class="team-card tall" type="button" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
+        <button class="team-card tall" type="button" data-idx="6" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
           <!-- TEAM PHOTO PLACEHOLDER: member-07 — แทน <svg class=glyph> ด้วย <img src="..." alt="ชื่อ"> -->
           <span class="tph g0" data-g="g0"><svg class="glyph"><use href="#ico-person"/></svg></span>
           <span class="t-idx">07</span>
           <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
         </button>
-        <button class="team-card" type="button" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
+        <button class="team-card" type="button" data-idx="7" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
           <!-- TEAM PHOTO PLACEHOLDER: member-08 — แทน <svg class=glyph> ด้วย <img src="..." alt="ชื่อ"> -->
           <span class="tph g1" data-g="g1"><svg class="glyph"><use href="#ico-person"/></svg></span>
           <span class="t-idx">08</span>
           <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
         </button>
-        <button class="team-card" type="button" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
+        <button class="team-card" type="button" data-idx="8" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
           <!-- TEAM PHOTO PLACEHOLDER: member-09 — แทน <svg class=glyph> ด้วย <img src="..." alt="ชื่อ"> -->
           <span class="tph g2" data-g="g2"><svg class="glyph"><use href="#ico-person"/></svg></span>
           <span class="t-idx">09</span>
           <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
         </button>
-        <button class="team-card tall" type="button" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
+        <button class="team-card tall" type="button" data-idx="9" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
           <!-- TEAM PHOTO PLACEHOLDER: member-10 — แทน <svg class=glyph> ด้วย <img src="..." alt="ชื่อ"> -->
           <span class="tph g3" data-g="g3"><svg class="glyph"><use href="#ico-person"/></svg></span>
           <span class="t-idx">10</span>
           <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
         </button>
-        <button class="team-card" type="button" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
+        <button class="team-card" type="button" data-idx="10" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
           <!-- TEAM PHOTO PLACEHOLDER: member-11 — แทน <svg class=glyph> ด้วย <img src="..." alt="ชื่อ"> -->
           <span class="tph g4" data-g="g4"><svg class="glyph"><use href="#ico-person"/></svg></span>
           <span class="t-idx">11</span>
           <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
         </button>
-        <button class="team-card" type="button" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
+        <button class="team-card" type="button" data-idx="11" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
           <!-- TEAM PHOTO PLACEHOLDER: member-12 — แทน <svg class=glyph> ด้วย <img src="..." alt="ชื่อ"> -->
           <span class="tph g5" data-g="g5"><svg class="glyph"><use href="#ico-person"/></svg></span>
           <span class="t-idx">12</span>
           <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
         </button>
-        <button class="team-card tall" type="button" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
+        <button class="team-card tall" type="button" data-idx="12" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
           <!-- TEAM PHOTO PLACEHOLDER: member-13 — แทน <svg class=glyph> ด้วย <img src="..." alt="ชื่อ"> -->
           <span class="tph g0" data-g="g0"><svg class="glyph"><use href="#ico-person"/></svg></span>
           <span class="t-idx">13</span>
           <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
         </button>
-        <button class="team-card" type="button" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
+        <button class="team-card" type="button" data-idx="13" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
           <!-- TEAM PHOTO PLACEHOLDER: member-14 — แทน <svg class=glyph> ด้วย <img src="..." alt="ชื่อ"> -->
           <span class="tph g1" data-g="g1"><svg class="glyph"><use href="#ico-person"/></svg></span>
           <span class="t-idx">14</span>
           <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
         </button>
-        <button class="team-card" type="button" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
+        <button class="team-card" type="button" data-idx="14" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน">
           <!-- TEAM PHOTO PLACEHOLDER: member-15 — แทน <svg class=glyph> ด้วย <img src="..." alt="ชื่อ"> -->
+          <span class="tph g2" data-g="g2"><svg class="glyph"><use href="#ico-person"/></svg></span>
+          <span class="t-idx">15</span>
+          <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
+        </button>
+        <button class="team-card tall" type="button" data-idx="0" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน" aria-hidden="true" tabindex="-1">
+          <span class="tph g0" data-g="g0"><svg class="glyph"><use href="#ico-person"/></svg></span>
+          <span class="t-idx">01</span>
+          <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
+        </button>
+        <button class="team-card" type="button" data-idx="1" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน" aria-hidden="true" tabindex="-1">
+          <span class="tph g1" data-g="g1"><svg class="glyph"><use href="#ico-person"/></svg></span>
+          <span class="t-idx">02</span>
+          <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
+        </button>
+        <button class="team-card" type="button" data-idx="2" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน" aria-hidden="true" tabindex="-1">
+          <span class="tph g2" data-g="g2"><svg class="glyph"><use href="#ico-person"/></svg></span>
+          <span class="t-idx">03</span>
+          <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
+        </button>
+        <button class="team-card tall" type="button" data-idx="3" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน" aria-hidden="true" tabindex="-1">
+          <span class="tph g3" data-g="g3"><svg class="glyph"><use href="#ico-person"/></svg></span>
+          <span class="t-idx">04</span>
+          <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
+        </button>
+        <button class="team-card" type="button" data-idx="4" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน" aria-hidden="true" tabindex="-1">
+          <span class="tph g4" data-g="g4"><svg class="glyph"><use href="#ico-person"/></svg></span>
+          <span class="t-idx">05</span>
+          <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
+        </button>
+        <button class="team-card" type="button" data-idx="5" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน" aria-hidden="true" tabindex="-1">
+          <span class="tph g5" data-g="g5"><svg class="glyph"><use href="#ico-person"/></svg></span>
+          <span class="t-idx">06</span>
+          <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
+        </button>
+        <button class="team-card tall" type="button" data-idx="6" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน" aria-hidden="true" tabindex="-1">
+          <span class="tph g0" data-g="g0"><svg class="glyph"><use href="#ico-person"/></svg></span>
+          <span class="t-idx">07</span>
+          <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
+        </button>
+        <button class="team-card" type="button" data-idx="7" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน" aria-hidden="true" tabindex="-1">
+          <span class="tph g1" data-g="g1"><svg class="glyph"><use href="#ico-person"/></svg></span>
+          <span class="t-idx">08</span>
+          <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
+        </button>
+        <button class="team-card" type="button" data-idx="8" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน" aria-hidden="true" tabindex="-1">
+          <span class="tph g2" data-g="g2"><svg class="glyph"><use href="#ico-person"/></svg></span>
+          <span class="t-idx">09</span>
+          <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
+        </button>
+        <button class="team-card tall" type="button" data-idx="9" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน" aria-hidden="true" tabindex="-1">
+          <span class="tph g3" data-g="g3"><svg class="glyph"><use href="#ico-person"/></svg></span>
+          <span class="t-idx">10</span>
+          <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
+        </button>
+        <button class="team-card" type="button" data-idx="10" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน" aria-hidden="true" tabindex="-1">
+          <span class="tph g4" data-g="g4"><svg class="glyph"><use href="#ico-person"/></svg></span>
+          <span class="t-idx">11</span>
+          <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
+        </button>
+        <button class="team-card" type="button" data-idx="11" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน" aria-hidden="true" tabindex="-1">
+          <span class="tph g5" data-g="g5"><svg class="glyph"><use href="#ico-person"/></svg></span>
+          <span class="t-idx">12</span>
+          <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
+        </button>
+        <button class="team-card tall" type="button" data-idx="12" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน" aria-hidden="true" tabindex="-1">
+          <span class="tph g0" data-g="g0"><svg class="glyph"><use href="#ico-person"/></svg></span>
+          <span class="t-idx">13</span>
+          <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
+        </button>
+        <button class="team-card" type="button" data-idx="13" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน" aria-hidden="true" tabindex="-1">
+          <span class="tph g1" data-g="g1"><svg class="glyph"><use href="#ico-person"/></svg></span>
+          <span class="t-idx">14</span>
+          <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
+        </button>
+        <button class="team-card" type="button" data-idx="14" data-name="ชื่อ–สกุล" data-role="ตำแหน่งงาน" aria-hidden="true" tabindex="-1">
           <span class="tph g2" data-g="g2"><svg class="glyph"><use href="#ico-person"/></svg></span>
           <span class="t-idx">15</span>
           <span class="meta"><span class="t-name">ชื่อ–สกุล</span><span class="t-role">ตำแหน่งงาน</span></span>
@@ -1155,8 +1257,8 @@
     </div>
 
     <div class="stats stagger">
-      <div class="stat reveal"><span class="n">2</span><span class="l">ทีมผู้เชี่ยวชาญ</span></div>
-      <div class="stat reveal"><span class="n grad-text">1</span><span class="l">โฟลว์เดียวจบ</span></div>
+      <div class="stat reveal"><span class="n">15+</span><span class="l">ทีมงานมืออาชีพ</span></div>
+      <div class="stat reveal"><span class="n grad-text">1</span><span class="l">ที่จบทุกบริการ</span></div>
       <div class="stat reveal"><span class="n">10</span><span class="l">บริการครบจบในที่เดียว</span></div>
     </div>
   </div>
@@ -1273,7 +1375,7 @@
 
       <div class="phase-card reveal">
         <span class="wm">09</span>
-        <span class="phase-icon-slot"><svg class="p-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5v5a1 1 0 0 0 1 1h2.2L13 19V5L7.2 9.5H5a1 1 0 0 0-1 1Z"/><path d="M16.5 9a4 4 0 0 1 0 6"/></svg></span>
+        <span class="phase-icon-slot"><svg class="p-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h8"/><path d="M17 7h3"/><circle cx="14.5" cy="7" r="2.3"/><path d="M4 12h4"/><path d="M13 12h7"/><circle cx="10.5" cy="12" r="2.3"/><path d="M4 17h8"/><path d="M17 17h3"/><circle cx="14.5" cy="17" r="2.3"/></svg></span>
         <div class="phase-name">Ads Optimize</div>
         <div class="phase-sub">บริหารและเพิ่มประสิทธิภาพโฆษณา</div>
         <ul class="phase-list">
@@ -1528,12 +1630,15 @@
     });
   }
 
-  // Team lightbox: click a card to open an enlarged view; ‹ › cycle through
-  // everyone (wrapping), ✕ / backdrop / Esc closes; arrow keys navigate too.
+  // Team rail: the cards are rendered twice (originals + clones) so the strip
+  // can auto-scroll forever and wrap seamlessly. The lightbox works off the 15
+  // unique people (via data-idx); ‹ › cycle through them, ✕ / backdrop / Esc
+  // close, arrow keys navigate. The rail's own arrows + drag loop around too.
   const teamRail = document.getElementById('teamRail');
   const lb = document.getElementById('teamLb');
   if (teamRail && lb) {
     const cards = Array.from(teamRail.querySelectorAll('.team-card'));
+    const people = cards.filter((c) => !c.hasAttribute('aria-hidden')); // the 15 originals
     const lbPhoto = document.getElementById('lbPhoto');
     const lbName = document.getElementById('lbName');
     const lbRole = document.getElementById('lbRole');
@@ -1541,19 +1646,19 @@
     let cur = 0;
 
     const render = () => {
-      const card = cards[cur];
+      const card = people[cur];
       const ph = card.querySelector('.tph');
       lbPhoto.className = 'lb-photo ' + (ph.dataset.g || '');
       lbPhoto.innerHTML = ph.innerHTML; // carries a future <img> or the glyph
       lbName.textContent = card.dataset.name || '';
       lbRole.textContent = card.dataset.role || '';
-      lbCount.textContent = (cur + 1) + ' / ' + cards.length;
+      lbCount.textContent = (cur + 1) + ' / ' + people.length;
     };
     const open = (i) => { cur = i; render(); lb.classList.add('open'); lb.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden'; };
     const close = () => { lb.classList.remove('open'); lb.setAttribute('aria-hidden', 'true'); document.body.style.overflow = ''; };
-    const go = (d) => { cur = (cur + d + cards.length) % cards.length; render(); };
+    const go = (d) => { cur = (cur + d + people.length) % people.length; render(); };
 
-    cards.forEach((card, i) => card.addEventListener('click', () => open(i)));
+    cards.forEach((card) => card.addEventListener('click', () => { if (!dragged) open(parseInt(card.dataset.idx, 10) || 0); }));
     document.getElementById('lbPrev').addEventListener('click', (e) => { e.stopPropagation(); go(-1); });
     document.getElementById('lbNext').addEventListener('click', (e) => { e.stopPropagation(); go(1); });
     document.getElementById('lbClose').addEventListener('click', close);
@@ -1565,38 +1670,48 @@
       else if (e.key === 'ArrowRight') go(1);
     });
 
-    // Arrow buttons + gentle auto-scroll for the team rail
-    // (pauses while hovering, dragging, or the lightbox is open)
+    // ----- Infinite auto-scroll + looping arrows -----
     const railPrev = document.getElementById('railPrev');
     const railNext = document.getElementById('railNext');
     const reduceRail = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let hovering = false, resumeAt = 0, dir = 1, acc = 0, lastT = performance.now();
-    const pauseBriefly = () => { resumeAt = performance.now() + 3000; };
-    const cardStep = () => Math.min(teamRail.clientWidth * 0.8, 280);
+    let pos = 0, target = null, hovering = false, lastInteract = -9999, dragged = false, lastT = performance.now();
 
-    if (railPrev) railPrev.addEventListener('click', () => { teamRail.scrollBy({ left: -cardStep(), behavior: 'smooth' }); pauseBriefly(); });
-    if (railNext) railNext.addEventListener('click', () => { teamRail.scrollBy({ left: cardStep(), behavior: 'smooth' }); pauseBriefly(); });
+    // exact width of one copy = x-distance from the first original to the first clone
+    let loopLen = 0;
+    const measure = () => { loopLen = cards[15] ? (cards[15].getBoundingClientRect().left - cards[0].getBoundingClientRect().left) : teamRail.scrollWidth / 2; };
+    window.addEventListener('resize', () => { loopLen = 0; });
+    const wrap = (p) => { const L = loopLen || 1; return ((p % L) + L) % L; };
+
+    const nudge = (dir) => { measure(); const step = Math.min(teamRail.clientWidth * 0.85, 300); target = pos + dir * step; lastInteract = performance.now(); };
+    if (railPrev) railPrev.addEventListener('click', () => nudge(-1));
+    if (railNext) railNext.addEventListener('click', () => nudge(1));
     teamRail.addEventListener('pointerenter', () => { hovering = true; });
     teamRail.addEventListener('pointerleave', () => { hovering = false; });
-    teamRail.addEventListener('pointerdown', pauseBriefly);
-    teamRail.addEventListener('wheel', pauseBriefly, { passive: true });
-    teamRail.addEventListener('touchstart', pauseBriefly, { passive: true });
+    teamRail.addEventListener('pointerdown', () => { dragged = false; lastInteract = performance.now(); });
+    teamRail.addEventListener('pointermove', (e) => { if (e.buttons) { dragged = true; lastInteract = performance.now(); } });
+    teamRail.addEventListener('wheel', () => { lastInteract = performance.now(); }, { passive: true });
+    teamRail.addEventListener('touchstart', () => { lastInteract = performance.now(); }, { passive: true });
+    teamRail.addEventListener('touchmove', () => { dragged = true; lastInteract = performance.now(); }, { passive: true });
+    // reset the click-suppression flag shortly after a drag ends
+    teamRail.addEventListener('pointerup', () => setTimeout(() => { dragged = false; }, 50));
 
-    const autoScroll = (now) => {
+    const tick = (now) => {
       const dt = Math.min((now - lastT) / 1000, 0.05); lastT = now;
-      const max = teamRail.scrollWidth - teamRail.clientWidth;
-      if (!reduceRail && !hovering && now > resumeAt && !lb.classList.contains('open') && max > 4) {
-        acc += 26 * dt * dir; // ~26 px per second
-        if (Math.abs(acc) >= 1) {
-          teamRail.scrollLeft += Math.trunc(acc);
-          acc -= Math.trunc(acc);
-          if (teamRail.scrollLeft <= 0) dir = 1;
-          else if (teamRail.scrollLeft >= max - 1) dir = -1;
-        }
+      if (!loopLen) measure();
+      const recentlyTouched = now - lastInteract < 2500;
+      if (target !== null) {                       // arrow ease (loops via wrap)
+        pos += (target - pos) * Math.min(1, dt * 7);
+        if (Math.abs(target - pos) < 0.5) { pos = target; target = null; lastInteract = now; }
+        teamRail.scrollLeft = wrap(pos);
+      } else if (!reduceRail && !hovering && !recentlyTouched && !lb.classList.contains('open') && loopLen > 4) {
+        pos += 26 * dt;                            // gentle continuous auto-scroll
+        teamRail.scrollLeft = wrap(pos);
+      } else {
+        pos = teamRail.scrollLeft;                 // user is scrolling — stay in sync, allow momentum
       }
-      requestAnimationFrame(autoScroll);
+      requestAnimationFrame(tick);
     };
-    requestAnimationFrame(autoScroll);
+    requestAnimationFrame(tick);
   }
 
   // Current year
