@@ -875,7 +875,7 @@
 
   .contact-channels { display: grid; gap: 12px; max-width: 640px; margin: 0 auto 44px; }
   .channel {
-    display: flex; align-items: center; gap: 14px;
+    display: flex; flex-direction: column; align-items: flex-start; gap: 8px;
     border: 1px solid var(--line);
     background: rgba(255,255,255,0.03);
     border-radius: 14px;
@@ -887,6 +887,10 @@
   }
   .channel:hover { border-color: var(--line-strong); }
   .channel .label { font-family: var(--font-display); font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--faint); min-width: 64px; }
+  .channel .vals { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+  .channel .vals a { color: var(--text); transition: color 0.2s ease; word-break: break-word; }
+  .channel .vals a:hover { color: #fff; text-decoration: underline; }
+  .channel .who { color: var(--muted); font-size: 12.5px; }
   @media (min-width: 700px) { .contact-channels { grid-template-columns: repeat(3, 1fr); } .channel { flex-direction: column; align-items: flex-start; gap: 8px; } }
 
   .qr-box { display: inline-flex; flex-direction: column; align-items: center; gap: 12px; }
@@ -1466,12 +1470,26 @@
       <p class="contact-lead">คุยกับเราก่อนได้ ไม่มีค่าใช้จ่าย — เล่าเป้าหมายของคุณมา แล้วให้เราช่วยวางเส้นทางที่เหลือ</p>
 
       <div class="contact-channels">
-        <!-- CONTACT PLACEHOLDER: เบอร์โทร (รอข้อมูล) -->
-        <div class="channel"><span class="label">Tel</span><span>รอข้อมูลเบอร์โทร</span></div>
-        <!-- CONTACT PLACEHOLDER: LINE OA (รอข้อมูล) -->
-        <div class="channel"><span class="label">LINE OA</span><span>รอข้อมูล LINE OA</span></div>
-        <!-- CONTACT PLACEHOLDER: อีเมล (รอข้อมูล) -->
-        <div class="channel"><span class="label">Email</span><span>รอข้อมูลอีเมล</span></div>
+        <div class="channel">
+          <span class="label">Tel</span>
+          <div class="vals">
+            <a href="tel:0945255244">094-525-5244 <span class="who">(เพชร)</span></a>
+            <a href="tel:0842544655">084-254-4655 <span class="who">(โน๊ต)</span></a>
+          </div>
+        </div>
+        <div class="channel">
+          <span class="label">LINE</span>
+          <div class="vals">
+            <a href="https://lin.ee/tGRPQDu" target="_blank" rel="noopener">@113bouxt</a>
+          </div>
+        </div>
+        <div class="channel">
+          <span class="label">Email</span>
+          <div class="vals">
+            <a href="mailto:kkdesignmate@gmail.com">kkdesignmate@gmail.com</a>
+            <a href="mailto:mnop89.cs@gmail.com">mnop89.cs@gmail.com</a>
+          </div>
+        </div>
       </div>
 
       <div class="qr-box">
