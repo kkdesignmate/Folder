@@ -848,6 +848,37 @@
   @media (min-width: 640px) { .work-grid { grid-template-columns: repeat(2, 1fr); } }
   @media (min-width: 980px) { .work-grid { grid-template-columns: repeat(3, 1fr); } }
 
+  /* Portfolio video player */
+  .work-video {
+    position: relative;
+    max-width: 960px;
+    margin: 48px auto 0;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--line-strong);
+    background: #000;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+  }
+  .work-video video { width: 100%; height: 100%; display: block; object-fit: cover; }
+  .work-play {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(180deg, rgba(0,0,0,0.1), rgba(0,0,0,0.35));
+    border: none; cursor: pointer;
+    transition: opacity 0.3s ease;
+  }
+  .work-play.hidden { opacity: 0; pointer-events: none; }
+  .work-play .pbtn {
+    width: 76px; height: 76px; border-radius: 50%;
+    background: rgba(255, 255, 255, 0.94);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 12px 34px rgba(0, 0, 0, 0.5);
+    transition: transform 0.2s ease;
+  }
+  .work-video:hover .pbtn { transform: scale(1.08); }
+  .work-play .pbtn svg { width: 30px; height: 30px; margin-left: 4px; fill: #0a0a0c; }
+
   /* ============ 6. Contact ============ */
   .contact-card {
     position: relative;
@@ -1129,45 +1160,6 @@
           <span class="tph"><img src="team/12.jpg" alt="" loading="lazy"></span>
         </button>
         <button class="team-card tall" type="button" data-idx="12">
-          <span class="tph"><img src="team/13.jpg" alt="" loading="lazy"></span>
-        </button>
-        <button class="team-card tall" type="button" data-idx="0" aria-hidden="true" tabindex="-1">
-          <span class="tph"><img src="team/1.jpg" alt="" loading="lazy"></span>
-        </button>
-        <button class="team-card" type="button" data-idx="1" aria-hidden="true" tabindex="-1">
-          <span class="tph"><img src="team/2.jpg" alt="" loading="lazy"></span>
-        </button>
-        <button class="team-card" type="button" data-idx="2" aria-hidden="true" tabindex="-1">
-          <span class="tph"><img src="team/3.jpg" alt="" loading="lazy"></span>
-        </button>
-        <button class="team-card tall" type="button" data-idx="3" aria-hidden="true" tabindex="-1">
-          <span class="tph"><img src="team/4.jpg" alt="" loading="lazy"></span>
-        </button>
-        <button class="team-card" type="button" data-idx="4" aria-hidden="true" tabindex="-1">
-          <span class="tph"><img src="team/5.jpg" alt="" loading="lazy"></span>
-        </button>
-        <button class="team-card" type="button" data-idx="5" aria-hidden="true" tabindex="-1">
-          <span class="tph"><img src="team/6.jpg" alt="" loading="lazy"></span>
-        </button>
-        <button class="team-card tall" type="button" data-idx="6" aria-hidden="true" tabindex="-1">
-          <span class="tph"><img src="team/7.jpg" alt="" loading="lazy"></span>
-        </button>
-        <button class="team-card" type="button" data-idx="7" aria-hidden="true" tabindex="-1">
-          <span class="tph"><img src="team/8.jpg" alt="" loading="lazy"></span>
-        </button>
-        <button class="team-card" type="button" data-idx="8" aria-hidden="true" tabindex="-1">
-          <span class="tph"><img src="team/9.jpg" alt="" loading="lazy"></span>
-        </button>
-        <button class="team-card tall" type="button" data-idx="9" aria-hidden="true" tabindex="-1">
-          <span class="tph"><img src="team/10.jpg" alt="" loading="lazy"></span>
-        </button>
-        <button class="team-card" type="button" data-idx="10" aria-hidden="true" tabindex="-1">
-          <span class="tph"><img src="team/11.jpg" alt="" loading="lazy"></span>
-        </button>
-        <button class="team-card" type="button" data-idx="11" aria-hidden="true" tabindex="-1">
-          <span class="tph"><img src="team/12.jpg" alt="" loading="lazy"></span>
-        </button>
-        <button class="team-card tall" type="button" data-idx="12" aria-hidden="true" tabindex="-1">
           <span class="tph"><img src="team/13.jpg" alt="" loading="lazy"></span>
         </button>
         </div>
@@ -1453,21 +1445,16 @@
   <div class="container">
     <div class="eyebrow reveal">Selected Work</div>
     <h2 class="section-title reveal">ผลงานของเรา</h2>
-    <p class="section-lead reveal">ตัวอย่างงานจากทั้งสองทีม — อัปเดตเร็ว ๆ นี้</p>
+    <p class="section-lead reveal">โชว์รีลผลงานของทีม DSM × MNOP</p>
 
-    <div class="work-grid stagger">
-      <!-- IMAGE PLACEHOLDER: case-1 (รอไฟล์เพิ่ม) -->
-      <div class="work-item reveal"><span class="num">01</span>CASE STUDY</div>
-      <!-- IMAGE PLACEHOLDER: case-2 (รอไฟล์เพิ่ม) -->
-      <div class="work-item reveal"><span class="num">02</span>CASE STUDY</div>
-      <!-- IMAGE PLACEHOLDER: case-3 (รอไฟล์เพิ่ม) -->
-      <div class="work-item reveal"><span class="num">03</span>CASE STUDY</div>
-      <!-- IMAGE PLACEHOLDER: case-4 (รอไฟล์เพิ่ม) -->
-      <div class="work-item reveal"><span class="num">04</span>CASE STUDY</div>
-      <!-- IMAGE PLACEHOLDER: case-5 (รอไฟล์เพิ่ม) -->
-      <div class="work-item reveal"><span class="num">05</span>CASE STUDY</div>
-      <!-- IMAGE PLACEHOLDER: case-6 (รอไฟล์เพิ่ม) -->
-      <div class="work-item reveal"><span class="num">06</span>CASE STUDY</div>
+    <div class="work-video reveal" data-reveal="zoom">
+      <!-- PORTFOLIO VIDEO: portfolio.mp4 (1920x1080, compressed) -->
+      <video id="workVid" poster="portfolio-poster.jpg" preload="none" playsinline controls>
+        <source src="portfolio.mp4" type="video/mp4">
+      </video>
+      <button class="work-play" id="workPlay" type="button" aria-label="เล่นวิดีโอผลงาน">
+        <span class="pbtn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
+      </button>
     </div>
   </div>
 </section>
@@ -1703,20 +1690,23 @@
       else if (e.key === 'ArrowRight') go(1);
     });
 
-    // ----- Infinite auto-scroll + looping arrows -----
+    // ----- Auto-scroll + looping arrows (NO duplicate cards) -----
+    // Only the 13 unique cards exist. Auto-scroll to the end, then wrap back to
+    // the start; arrows loop around too. No card is ever shown twice on screen.
     const railPrev = document.getElementById('railPrev');
     const railNext = document.getElementById('railNext');
     const reduceRail = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let pos = 0, target = null, hovering = false, lastInteract = -9999, dragged = false, lastT = performance.now();
+    const maxScroll = () => Math.max(1, teamRail.scrollWidth - teamRail.clientWidth);
 
-    // exact width of one copy = x-distance from the first original to the first clone
-    let loopLen = 0;
-    const firstClone = cards[people.length]; // start of the duplicated set
-    const measure = () => { loopLen = firstClone ? (firstClone.getBoundingClientRect().left - cards[0].getBoundingClientRect().left) : teamRail.scrollWidth / 2; };
-    window.addEventListener('resize', () => { loopLen = 0; });
-    const wrap = (p) => { const L = loopLen || 1; return ((p % L) + L) % L; };
-
-    const nudge = (dir) => { measure(); const step = Math.min(teamRail.clientWidth * 0.85, 300); target = pos + dir * step; lastInteract = performance.now(); };
+    const nudge = (dir) => {
+      const M = maxScroll();
+      const step = Math.min(teamRail.clientWidth * 0.85, 300);
+      let t = pos + dir * step;
+      if (t > M + 8) t = 0;            // past the end → loop to start
+      else if (t < -8) t = M;          // before the start → loop to end
+      target = t; lastInteract = performance.now();
+    };
     if (railPrev) railPrev.addEventListener('click', () => nudge(-1));
     if (railNext) railNext.addEventListener('click', () => nudge(1));
     teamRail.addEventListener('pointerenter', () => { hovering = true; });
@@ -1726,26 +1716,35 @@
     teamRail.addEventListener('wheel', () => { lastInteract = performance.now(); }, { passive: true });
     teamRail.addEventListener('touchstart', () => { lastInteract = performance.now(); }, { passive: true });
     teamRail.addEventListener('touchmove', () => { dragged = true; lastInteract = performance.now(); }, { passive: true });
-    // reset the click-suppression flag shortly after a drag ends
     teamRail.addEventListener('pointerup', () => setTimeout(() => { dragged = false; }, 50));
 
     const tick = (now) => {
       const dt = Math.min((now - lastT) / 1000, 0.05); lastT = now;
-      if (!loopLen) measure();
       const recentlyTouched = now - lastInteract < 2500;
-      if (target !== null) {                       // arrow ease (loops via wrap)
+      const M = maxScroll();
+      if (target !== null) {                       // arrow ease
         pos += (target - pos) * Math.min(1, dt * 7);
         if (Math.abs(target - pos) < 0.5) { pos = target; target = null; lastInteract = now; }
-        teamRail.scrollLeft = wrap(pos);
-      } else if (!reduceRail && !hovering && !recentlyTouched && !lb.classList.contains('open') && loopLen > 4) {
+        teamRail.scrollLeft = pos;
+      } else if (!reduceRail && !hovering && !recentlyTouched && !lb.classList.contains('open') && M > 4) {
         pos += 26 * dt;                            // gentle continuous auto-scroll
-        teamRail.scrollLeft = wrap(pos);
+        if (pos >= M) pos = 0;                     // reached the end → wrap to start
+        teamRail.scrollLeft = pos;
       } else {
-        pos = teamRail.scrollLeft;                 // user is scrolling — stay in sync, allow momentum
+        pos = teamRail.scrollLeft;                 // user is scrolling — stay in sync
       }
       requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);
+  }
+
+  // Portfolio video: big play overlay hides on play, returns when the clip ends
+  const workVid = document.getElementById('workVid');
+  const workPlay = document.getElementById('workPlay');
+  if (workVid && workPlay) {
+    workPlay.addEventListener('click', () => { workVid.play(); });
+    workVid.addEventListener('play', () => workPlay.classList.add('hidden'));
+    workVid.addEventListener('ended', () => workPlay.classList.remove('hidden'));
   }
 
   // Current year
