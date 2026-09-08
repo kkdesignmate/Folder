@@ -5,6 +5,7 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   base: './',
   plugins: [react(), tailwindcss()],
-  // Builds into /anchor at the repo root so GitHub Pages serves it at <site>/anchor/
-  build: { outDir: '../anchor', emptyOutDir: true },
+  // Stays inside this folder and out of git — this app is not part of the site
+  // published from the repo root.
+  build: { outDir: 'dist', emptyOutDir: true },
 })
