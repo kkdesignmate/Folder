@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+/* ── Themes ───────────────────────────────────────────────────────────────
+   "ink" ships unlocked; the rest are earned from reward cards. Every colour
+   lives here so a theme swap is one attribute change on <html>.            */
+:root,
+[data-theme="ink"] {
+  --bg: #0d0f14;
+  --surface: #151a23;
+  --surface-2: #1e2532;
+  --line: #2a3240;
+  --text: #e9eef6;
+  --muted: #8892a4;
+  --accent: #3ec7b4;
+  --accent-soft: #3ec7b422;
+  --on-accent: #06231f;
+  --danger: #ff6b6b;
+  --danger-soft: #ff6b6b1f;
+  --warn: #f3b95f;
+  --glow: #3ec7b433;
+}
+[data-theme="forest"] {
+  --bg: #0b1210; --surface: #121c18; --surface-2: #1a2622; --line: #26362f;
+  --text: #e7f2ec; --muted: #869a90; --accent: #7bd88f; --accent-soft: #7bd88f22;
+  --on-accent: #08210f; --danger: #ff7a7a; --danger-soft: #ff7a7a1f; --warn: #e8c46a;
+  --glow: #7bd88f33;
+}
+[data-theme="ember"] {
+  --bg: #120e0c; --surface: #1c1613; --surface-2: #27201b; --line: #3a2f27;
+  --text: #f6ece5; --muted: #a4948a; --accent: #ff9f5a; --accent-soft: #ff9f5a22;
+  --on-accent: #2a1405; --danger: #ff6b6b; --danger-soft: #ff6b6b1f; --warn: #ffd08a;
+  --glow: #ff9f5a33;
+}
+[data-theme="dawn"] {
+  --bg: #f6f4f1; --surface: #ffffff; --surface-2: #f0ece7; --line: #e0d9d1;
+  --text: #1d1b19; --muted: #7c736b; --accent: #d9643c; --accent-soft: #d9643c1a;
+  --on-accent: #fff6f2; --danger: #c0392b; --danger-soft: #c0392b14; --warn: #b58124;
+  --glow: #d9643c26;
+}
+
+html {
+  background: var(--bg);
+  color-scheme: dark;
+}
+[data-theme="dawn"] { color-scheme: light; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "IBM Plex Sans Thai", ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior-y: none;
+}
+
+.num { font-family: Sora, ui-sans-serif, system-ui, sans-serif; font-feature-settings: "tnum"; }
+
+/* Tap targets should never show the mobile highlight flash. */
+button, a { -webkit-tap-highlight-color: transparent; }
+
+input, textarea, select { font-family: inherit; }
+input[type="range"] { accent-color: var(--accent); }
+
+@keyframes pop { 0% { transform: scale(1) } 40% { transform: scale(1.14) } 100% { transform: scale(1) } }
+.animate-pop { animation: pop 320ms cubic-bezier(.2,.9,.3,1.4); }
+
+@keyframes rise { from { opacity: 0; transform: translateY(10px) } to { opacity: 1; transform: none } }
+.animate-rise { animation: rise 260ms ease-out both; }
+
+@keyframes fade { from { opacity: 0 } to { opacity: 1 } }
+.animate-fade { animation: fade 200ms ease-out both; }
+
+@keyframes breathe {
+  0%, 100% { transform: scale(0.62); opacity: .55 }
+  45%, 55% { transform: scale(1);    opacity: 1 }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-pop, .animate-rise, .animate-fade { animation: none; }
+}
+
+/* Hide scrollbars on the horizontal chip rails without losing scrollability. */
+.no-bar { scrollbar-width: none; }
+.no-bar::-webkit-scrollbar { display: none; }
